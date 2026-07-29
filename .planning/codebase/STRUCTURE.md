@@ -1,0 +1,115 @@
+# Codebase Structure
+
+**Analysis Date:** 2026-07-29
+
+## Directory Layout
+
+```
+[project-root]/
+├── .planning/             # GSD planning and codebase mapping files
+│   └── codebase/          # Structured documentation of the codebase
+├── public/                # Publicly served static assets
+│   ├── assets/            # Project images and graphics
+│   ├── favicon/           # Website favicons for various sizes
+│   ├── icon/              # Pixel art game action/status UI icons
+│   ├── models/            # 3D assets (.glb files for scene, character, and collision)
+│   └── textures/          # Scene environmental textures and noise maps
+├── src/                   # Source files directory
+│   ├── css/               # Core CSS declarations and styling setup
+│   ├── js/                # JavaScript logic files
+│   │   ├── components/    # Reusable 3D objects and UI component adapters
+│   │   ├── i18n/          # Translation configurations and localization support
+│   │   ├── tools/         # Auxiliary utility scripts and helpers
+│   │   ├── ui/            # UI interactions like day/night transitions
+│   │   ├── utils/         # Engine utility classes (loaders, loops, debuggers, window listeners)
+│   │   └── world/         # Game world objects, characters, environments, and zones
+│   ├── scss/              # Sass files for complex pixel borders and styles
+│   └── shaders/           # GLSL custom shaders for lava, portal, halftone, and glass
+├── tests/                 # Playwright automated E2E browser tests
+├── index.html             # Application markup entry point
+├── package.json           # Project dependencies and scripting configuration
+├── vite.config.js         # Configuration for Vite bundler and plugins
+└── yarn.lock              # Yarn lock file
+```
+
+## Directory Purposes
+
+**`src/js/world/`:**
+- Purpose: Where the 3D entity models and behaviors live.
+- Contains: Individual files representing components of the 3D world (hero, skybox, ocean, lava, fireflies, portal).
+- Key files: `world.js`, `hero.js`, `eventPointManager.js`.
+
+**`src/js/utils/`:**
+- Purpose: Technical backbone utilities that interface directly with Three.js engine and window.
+- Contains: Frame rate trackers, size handlers, custom event emitter, resource loading screen controller.
+- Key files: `resources.js`, `time.js`, `sizes.js`.
+
+**`src/js/i18n/`:**
+- Purpose: Application-wide localization.
+- Contains: Translate helper classes and actual dictionary assets.
+- Key files: `i18nManager.js`, `translations.js`.
+
+**`src/shaders/`:**
+- Purpose: Custom GPU shader material codes.
+- Contains: Subfolders for glass, portal, outline, halftone, and includes.
+- Key files: `portal/fragment.glsl`, `portal/vertex.glsl`.
+
+## Key File Locations
+
+**Entry Points:**
+- `index.html`: Main HTML entry template.
+- `src/js/index.js`: JavaScript entry point initializing `Experience` and base dialogs.
+
+**Configuration:**
+- `vite.config.js`: Bundling configuration, legacy support, GLSL loader, and Partytown.
+- `tailwind.config.cjs`: Tailwind utility presets and customizations.
+- `postcss.config.cjs`: PostCSS modules config (Autoprefixer, CSSNano, etc.).
+- `_config.js`: Local port and server configuration.
+
+**Core Logic:**
+- `src/js/experience.js`: Coordinates the scene, camera, renderer, inputs, and updates.
+- `src/js/world/hero.js`: Manages player velocity, capsules, octree intersections, inputs, and actions.
+
+**Testing:**
+- `tests/browsers.test.js`: Playwright E2E browser tests checking page navigation and layout rendering.
+
+## Naming Conventions
+
+**Files:**
+- JavaScript: `camelCase.js` for classes and controllers (e.g. `eventPointManager.js`, `languageSwitcher.js`), though some use standard filenames (e.g. `index.js`, `experience.js`).
+- Stylesheets: `kebab-case.scss` (e.g. `pixel-text.scss`).
+- Shaders: `lowerCase.glsl` (e.g. `vertex.glsl`, `fragment.glsl`).
+
+**Directories:**
+- Folders are kept lowercase, using `camelCase` or `kebab-case` if containing spaces (e.g. `components`, `i18n`, `world`, `eventMap`).
+
+## Where to Add New Code
+
+**New Feature (e.g. Achievement System):**
+- Add visual model assets to `public/models/`.
+- Add dictionary entries to `src/js/i18n/translations.js`.
+- Add logic in a new file under `src/js/world/` or `src/js/components/`.
+- Wire up updates into `src/js/world/world.js` or `Experience.update()` within `src/js/experience.js`.
+
+**New Component/Module:**
+- Put custom 3D mesh wrapper helper files into `src/js/components/`.
+- Put UI control handlers into `src/js/ui/`.
+
+**Utilities:**
+- Add shared non-visual helpers to `src/js/utils/` or `src/js/tools/`.
+
+## Special Directories
+
+**`public/`:**
+- Purpose: Contains assets that are mapped directly to root paths on serve (e.g., `public/models/scene.glb` becomes `/models/scene.glb`).
+- Generated: No.
+- Committed: Yes.
+
+**`dist/`:**
+- Purpose: Compiled production assets generated by Vite build.
+- Generated: Yes.
+- Committed: No (ignored via `.gitignore`).
+
+---
+
+*Structure analysis: 2026-07-29*
