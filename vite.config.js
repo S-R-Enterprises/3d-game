@@ -21,4 +21,14 @@ export default {
       dest: path.join(__dirname, 'dist', '~partytown'),
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        ship: path.resolve(__dirname, 'ship.html'),
+      },
+    },
+  },
 }
+
+// Trigger dev server restart

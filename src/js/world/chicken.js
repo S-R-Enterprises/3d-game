@@ -132,7 +132,7 @@ export default class Chicken {
   // 调试面板
   debugInit() {
     const chickenFolder = this.debug.ui.addFolder({
-      title: '小鸡模型调试',
+      title: 'Chicken Model Debug',
       expanded: true,
     })
     // 缩放调节
@@ -140,7 +140,7 @@ export default class Chicken {
       this.chickenParams,
       'scale',
       {
-        label: '缩放',
+        label: 'Scale',
         min: 0.1,
         max: 5,
         step: 0.01,
@@ -151,7 +151,7 @@ export default class Chicken {
       this.chickenParams,
       'jumpLength',
       {
-        label: '跳跃长度',
+        label: 'Jump Length',
         min: 0.5,
         max: 10,
         step: 0.1,
@@ -159,7 +159,7 @@ export default class Chicken {
     )
     // 位置调节
     const posFolder = chickenFolder.addFolder({
-      title: '位置',
+      title: 'Position',
       expanded: true,
     })
     posFolder.addBinding(this.chickenParams.position, 'x', {

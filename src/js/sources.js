@@ -55,9 +55,20 @@ export default [
     path: 'models/collision-world.glb',
   },
   {
-    name: 'chickenModel',
+    name: 'horseModel',
     type: 'gltfModel',
-    path: 'models/chicken.glb',
+    path: 'models/horse.glb',
+  },
+  {
+    name: 'spartansModel',
+    type: 'gltfModel',
+    path: 'models/300_spartans.glb',
+  },
+
+  {
+    name: 'helvetikerBold',
+    type: 'font',
+    path: 'fonts/helvetiker_bold.typeface.json',
   },
   {
     name: 'perlinNoiseTexture',

@@ -55,11 +55,11 @@ export default class Skybox {
   // 调试面板
   debugInit() {
     this.debugFolder = this.debug.ui.addFolder({
-      title: '天空盒',
+      title: 'Skybox',
       expanded: false,
     })
     this.debugFolder.addBinding(this, 'isNight', {
-      label: '夜间模式',
+      label: 'Night Mode',
       readonly: true,
     })
   }

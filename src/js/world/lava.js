@@ -185,13 +185,13 @@ export default class Lava {
   debugInit() {
     // 创建调试面板
     this.debugFolder = this.debug.ui.addFolder({
-      title: '岩浆效果',
+      title: 'Lava Effect',
       expanded: false,
     })
 
     // 岩浆参数控制
     const lavaFolder = this.debugFolder.addFolder({
-      title: '岩浆参数',
+      title: 'Lava Parameters',
       expanded: false,
     })
 
@@ -200,7 +200,7 @@ export default class Lava {
       this.uniforms.flowSpeed,
       'value',
       {
-        label: '流动速度',
+        label: 'Flow Speed',
         min: 0,
         max: 0.2,
         step: 0.001,
@@ -209,7 +209,7 @@ export default class Lava {
 
     // 添加位置控制
     const positionFolder = lavaFolder.addFolder({
-      title: '位置控制',
+      title: 'Position Control',
       expanded: false,
     })
 
@@ -218,7 +218,7 @@ export default class Lava {
       this.debugObject,
       'positionX',
       {
-        label: 'X轴位置',
+        label: 'X-Axis Position',
         min: -100,
         max: 100,
         step: 0.1,
@@ -232,7 +232,7 @@ export default class Lava {
       this.debugObject,
       'positionY',
       {
-        label: 'Y轴位置',
+        label: 'Y-Axis Position',
         min: -5,
         max: 5,
         step: 0.01,
@@ -246,7 +246,7 @@ export default class Lava {
       this.debugObject,
       'positionZ',
       {
-        label: 'Z轴位置',
+        label: 'Z-Axis Position',
         min: -100,
         max: 100,
         step: 0.1,
@@ -260,7 +260,7 @@ export default class Lava {
       this.debugObject,
       'scale',
       {
-        label: '岩浆表面大小',
+        label: 'Lava Surface Size',
         min: 1,
         max: 50,
         step: 1,
@@ -277,7 +277,7 @@ export default class Lava {
       this.uniforms.distanceFactor,
       'value',
       {
-        label: '波纹强度',
+        label: 'Ripple Strength',
         min: 0.1,
         max: 1.0,
         step: 0.01,
@@ -290,7 +290,7 @@ export default class Lava {
       this.debugObject,
       'color1',
       {
-        label: '岩浆颜色1',
+        label: 'Lava Color 1',
         view: 'color',
       },
     ).on('change', () => {
@@ -301,7 +301,7 @@ export default class Lava {
       this.debugObject,
       'color2',
       {
-        label: '岩浆颜色2',
+        label: 'Lava Color 2',
         view: 'color',
       },
     ).on('change', () => {
@@ -310,13 +310,13 @@ export default class Lava {
 
     // 发光参数控制
     const glowFolder = this.debugFolder.addFolder({
-      title: '发光参数',
+      title: 'Glow Parameters',
       expanded: true,
     })
 
     // 添加像素化控制面板
     const pixelFolder = this.debugFolder.addFolder({
-      title: '像素化参数',
+      title: 'Pixelation Parameters',
       expanded: true,
     })
 
@@ -324,7 +324,7 @@ export default class Lava {
       this.uniforms.pixelSize,
       'value',
       {
-        label: '像素化程度',
+        label: 'Pixelation Degree',
         min: 8,
         max: 64,
         step: 1,
@@ -335,7 +335,7 @@ export default class Lava {
       this.debugObject,
       'glowColor',
       {
-        label: '发光颜色',
+        label: 'Glow Color',
         view: 'color',
       },
     ).on('change', () => {
@@ -346,7 +346,7 @@ export default class Lava {
       this.uniforms.glowWidth,
       'value',
       {
-        label: '发光宽度',
+        label: 'Glow Width',
         min: 0,
         max: 0.2,
         step: 0.005,
@@ -357,7 +357,7 @@ export default class Lava {
       this.uniforms.glowSoftness,
       'value',
       {
-        label: '发光柔和度',
+        label: 'Glow Softness',
         min: 0,
         max: 0.1,
         step: 0.001,

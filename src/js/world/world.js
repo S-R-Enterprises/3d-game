@@ -10,6 +10,7 @@ import IntroDialog from './introDialog.js'
 import Lava from './lava.js'
 import Ocean from './ocean.js'
 import PortalEffect from './portal-effect.js'
+import Spartans from './spartans.js'
 
 export default class World {
   constructor() {
@@ -41,6 +42,8 @@ export default class World {
       this.ocean = new Ocean()
       // 初始化传送门效果
       this.portalEffect = new PortalEffect()
+      // 初始化斯巴达人
+      this.spartans = new Spartans()
 
       // 英雄和其他资源准备好后，设置事件点
       this.setupEventPoints()
@@ -73,7 +76,7 @@ export default class World {
    * 设置场景中的所有事件触发点
    */
   setupEventPoints() {
-    // 床铺区域
+    // Camp / rest area
     this.eventPointManager.createEventPoint(
       'bed_area',
       new THREE.Vector3(-15.91, -0.21, -10.34),
@@ -81,10 +84,10 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('bed_area')
       },
-      '按 F 键查看休息区信息',
+      'Press F — the weary camp',
     )
 
-    // 啤酒区域
+    // Wine / feast area
     this.eventPointManager.createEventPoint(
       'beer_area',
       new THREE.Vector3(-22.98, -0.21, -5.02),
@@ -92,10 +95,10 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('beer_area')
       },
-      '按 F 键查看收藏区信息',
+      'Press F — amphorae of wine',
     )
 
-    // 工作台区域
+    // Craft / raft area
     this.eventPointManager.createEventPoint(
       'workbench_area',
       new THREE.Vector3(-18.57, -0.21, -13.22),
@@ -103,10 +106,10 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('workbench_area')
       },
-      '按 F 键查看技能区信息',
+      'Press F — tools of cunning',
     )
 
-    // 武器区域
+    // Weapons / bow area
     this.eventPointManager.createEventPoint(
       'weapon_area',
       new THREE.Vector3(-12.68, -0.18, -7.16),
@@ -114,10 +117,10 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('weapon_area')
       },
-      '按 F 键查看项目经验',
+      'Press F — the great bow',
     )
 
-    // 用餐区域
+    // Dining / feast area
     this.eventPointManager.createEventPoint(
       'dining_area',
       new THREE.Vector3(-10.71, 1.5, -12),
@@ -125,10 +128,10 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('dining_area')
       },
-      '按 F 键查看生活爱好',
+      'Press F — a traveler\'s feast',
     )
 
-    // 厨房区域
+    // Kitchen / Circe's hearth
     this.eventPointManager.createEventPoint(
       'kitchen_area',
       new THREE.Vector3(-22.69, 0.71, -1.39),
@@ -136,10 +139,10 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('kitchen_area')
       },
-      '按 F 键查看个人技能',
+      'Press F — Circe\'s hearth',
     )
 
-    // 水井区域
+    // Well / island water
     this.eventPointManager.createEventPoint(
       'well_area',
       new THREE.Vector3(-5.71, 0.76, -10.10),
@@ -147,8 +150,47 @@ export default class World {
       () => {
         this.introDialog.showAreaContent('well_area')
       },
-      '按 F 键查看联系方式',
+      'Press F — the island well',
     )
+
+    // Ship Portal
+    if (this.portalEffect && this.portalEffect.portalMesh) {
+      this.portalEffect.portalMesh.updateWorldMatrix(true, false)
+      const pos = new THREE.Vector3()
+      this.portalEffect.portalMesh.getWorldPosition(pos)
+      this.eventPointManager.createEventPoint(
+        'portal_area',
+        pos,
+        8,
+        () => {
+          // Create fade-out transition element
+          const transitionDiv = document.createElement('div')
+          transitionDiv.style.position = 'fixed'
+          transitionDiv.style.top = '0'
+          transitionDiv.style.left = '0'
+          transitionDiv.style.width = '100vw'
+          transitionDiv.style.height = '100vh'
+          transitionDiv.style.backgroundColor = 'black'
+          transitionDiv.style.opacity = '0'
+          transitionDiv.style.zIndex = '99999'
+          transitionDiv.style.transition = 'opacity 1.5s ease'
+          transitionDiv.style.pointerEvents = 'none'
+          document.body.appendChild(transitionDiv)
+          
+          // Trigger reflow to ensure transition works
+          transitionDiv.offsetHeight
+          
+          // Start fade
+          transitionDiv.style.opacity = '1'
+          
+          // Redirect after transition finishes
+          setTimeout(() => {
+            window.location.href = '/ship.html'
+          }, 1500)
+        },
+        'Press F — to enter another dimension in the Odyssey story',
+      )
+    }
   }
 
   update() {
@@ -170,6 +212,9 @@ export default class World {
     // 更新传送门效果
     if (this.portalEffect) {
       this.portalEffect.update()
+    }
+    if (this.spartans) {
+      this.spartans.update()
     }
     this.effects.update()
 

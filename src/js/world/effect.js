@@ -30,7 +30,7 @@ export default class Effects {
     })
 
     // 创建像素化Pass
-    this.pixelPass = new RenderPixelatedPass(3, this.scene, this.camera.instance)
+    this.pixelPass = new RenderPixelatedPass(1, this.scene, this.camera.instance)
     this.pixelPass.normalEdgeStrength = 0.53
     this.pixelPass.depthEdgeStrength = 0.4
 
@@ -124,7 +124,7 @@ export default class Effects {
       this.pixelPass,
       { pixelSize: 10 }, // 初始值
       {
-        pixelSize: 2, // 目标值
+        pixelSize: 1, // 目标值
         duration: 5, // 动画时长（秒）
         ease: 'power2.out', // 缓动函数
         onUpdate: () => {

@@ -98,7 +98,7 @@ export default class PortalEffect {
   debugInit() {
     // 创建调试面板
     this.debugFolder = this.debug.ui.addFolder({
-      title: '传送门效果',
+      title: 'Portal Effect',
       expanded: false,
     })
 
@@ -108,7 +108,7 @@ export default class PortalEffect {
         this.portalMesh,
         'visible',
         {
-          label: '显示传送门',
+          label: 'Show Portal',
         },
       )
     }
@@ -118,7 +118,7 @@ export default class PortalEffect {
       this.params,
       'colorA',
       {
-        label: '颜色 A',
+        label: 'Color A',
         view: 'color',
       },
     ).on('change', () => {
@@ -150,7 +150,7 @@ export default class PortalEffect {
       this.params,
       'noiseScale',
       {
-        label: '噪声缩放',
+        label: 'Noise Scale',
         min: 0.1,
         max: 10.0,
         step: 0.1,
@@ -163,7 +163,7 @@ export default class PortalEffect {
       this.params,
       'timeScale',
       {
-        label: '时间缩放',
+        label: 'Time Scale',
         min: 0.0,
         max: 1.0,
         step: 0.01,
@@ -177,7 +177,7 @@ export default class PortalEffect {
       this.params,
       'glowIntensity',
       {
-        label: '发光强度',
+        label: 'Glow Intensity',
         min: 0.0,
         max: 10.0,
         step: 0.1,
@@ -190,7 +190,7 @@ export default class PortalEffect {
       this.params,
       'glowOffset',
       {
-        label: '发光偏移',
+        label: 'Glow Offset',
         min: 0.0,
         max: 3.0,
         step: 0.1,

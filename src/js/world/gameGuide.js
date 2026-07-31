@@ -59,7 +59,13 @@ export default class GameGuide extends EventEmitter {
 
     // Page 2 Content
     guideDialog.querySelector('#guideTitle2').textContent = this.i18n.t('guide.page_title_2')
+    const loreTitle = guideDialog.querySelector('#loreTitle')
+    if (loreTitle)
+      loreTitle.textContent = this.i18n.t('guide.lore_title')
     guideDialog.querySelector('#announcementDesc').textContent = this.i18n.t('guide.announcement_board')
+    const assetsTitle = guideDialog.querySelector('#assetsTitle')
+    if (assetsTitle)
+      assetsTitle.textContent = this.i18n.t('guide.assets_title')
     guideDialog.querySelector('#assetSourcesDesc').textContent = this.i18n.t('guide.asset_sources')
 
     // Buttons & Page Indicator
@@ -77,7 +83,7 @@ export default class GameGuide extends EventEmitter {
     guideDialog.innerHTML = `
       <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
       <div class="relative flex items-center justify-center min-h-screen p-4">
-        <div class="backdrop-blur-md rounded-lg shadow-xl max-w-2xl w-full p-8 relative pixel">
+        <div class="backdrop-blur-md rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative pixel">
           
           <!-- Page 1 Content -->
           <div id="guidePage1">
@@ -167,26 +173,16 @@ export default class GameGuide extends EventEmitter {
           <!-- Page 2 Content -->
           <div id="guidePage2" class="hidden">
             <h2 id="guideTitle2" class="text-3xl font-pixelify text-gray-200 mb-6">${this.i18n.t('guide.page_title_2')}</h2>
-            <!-- Announcement Board -->
+            <!-- Odyssey Lore -->
             <div class="mb-8">
-                <h3 class="text-2xl font-pixelify text-gray-200 mb-4">公告栏</h3>
+                <h3 id="loreTitle" class="text-2xl font-pixelify text-gray-200 mb-4">${this.i18n.t('guide.lore_title')}</h3>
                 <p id="announcementDesc" class="text-lg font-pixelify text-gray-300 mb-4">${this.i18n.t('guide.announcement_board')}</p>
-                <!-- Placeholder for Announcement Images -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="bg-gray-700/50 p-4 rounded pixel-border flex items-center justify-center text-gray-400 italic h-64">
-                        <img src="/assets/images/brand1.png" alt="Announcement Image 1" class="w-full h-full object-cover">
-                    </div>
-                    <div class="bg-gray-700/50 p-4 rounded pixel-border flex items-center justify-center text-gray-400 italic h-64">
-                        <img src="/assets/images/brand2.png" alt="Announcement Image 2" class="w-full h-full object-cover">
-                    </div>
-                </div>
             </div>
             <!-- Asset Sources -->
             <div class="mb-8">
-                <h3 class="text-2xl font-pixelify text-gray-200 mb-4">资源来源</h3>
+                <h3 id="assetsTitle" class="text-2xl font-pixelify text-gray-200 mb-4">${this.i18n.t('guide.assets_title')}</h3>
                 <p id="assetSourcesDesc" class="text-lg font-pixelify text-gray-300">${this.i18n.t('guide.asset_sources')}</p>
-                <p class="text-sm font-pixelify text-gray-400 mt-2">模型来源: <a href="https://kenney.nl/assets" target="_blank" class="text-blue-400 hover:underline">Kenney.nl</a>, Hyper3D AI</p>
-                <p class="text-sm font-pixelify text-gray-400">图片来源: GPT-4o</p>
+                <p class="text-sm font-pixelify text-gray-400 mt-2">Models: <a href="https://kenney.nl/assets" target="_blank" class="text-blue-400 hover:underline">Kenney.nl</a>, Hyper3D AI</p>
             </div>
           </div>
 

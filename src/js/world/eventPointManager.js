@@ -22,7 +22,7 @@ export default class EventPointManager {
    */
   createDebugPanel() {
     this.debugFolder = this.debug.ui.addFolder({
-      title: '交互点管理器',
+      title: 'Interaction Point Manager',
       expanded: false,
     })
 
@@ -33,7 +33,7 @@ export default class EventPointManager {
       },
       'showAllTriggers',
       {
-        label: '显示所有交互范围',
+        label: 'Show All Interaction Ranges',
       },
     ).on('change', (event) => {
       this.eventPoints.forEach((point) => {

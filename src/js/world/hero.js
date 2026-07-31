@@ -194,7 +194,7 @@ export default class Hero {
 
       // Add to debug panel
       const colliderFolder = this.debug.ui.addFolder({
-        title: '碰撞体系统',
+        title: 'Collider System',
         expanded: false,
       })
 
@@ -202,7 +202,7 @@ export default class Hero {
         { visualize: false },
         'visualize',
         {
-          label: '显示碰撞体',
+          label: 'Show Collider',
         },
       ).on('change', (event) => {
         this.octreeHelper.visible = event.value
@@ -227,7 +227,7 @@ export default class Hero {
         { playerCollider: false },
         'playerCollider',
         {
-          label: '显示角色碰撞体',
+          label: 'Show Character Collider',
         },
       ).on('change', (event) => {
         this.capsuleHelper.visible = event.value
@@ -619,13 +619,13 @@ export default class Hero {
   debugInit() {
     // ===== 角色动画控制面板 =====
     this.debugFolder = this.debug.ui.addFolder({
-      title: '角色动画控制',
+      title: 'Character Anim Control',
       expanded: false,
     })
 
     // ----- 基本信息显示 -----
     const infoFolder = this.debugFolder.addFolder({
-      title: '基本信息',
+      title: 'Basic Info',
       expanded: true,
     })
 
@@ -653,7 +653,7 @@ export default class Hero {
 
     // ----- 动画选择控制 -----
     const animSelectFolder = this.debugFolder.addFolder({
-      title: '动画选择',
+      title: 'Animation Selection',
       expanded: true,
     })
 
@@ -672,7 +672,7 @@ export default class Hero {
       this.debugAnimation,
       'currentAnimation',
       {
-        label: '切换动画',
+        label: 'Switch Animation',
         options: animationOptions,
       },
     ).on('change', (event) => {
@@ -681,7 +681,7 @@ export default class Hero {
 
     // ----- 动画参数控制 -----
     const animParamsFolder = this.debugFolder.addFolder({
-      title: '动画参数',
+      title: 'Animation Parameters',
       expanded: true,
     })
 
@@ -690,7 +690,7 @@ export default class Hero {
       this.animationParams,
       'timeScale',
       {
-        label: '播放速度',
+        label: 'Playback Speed',
         min: 0.1,
         max: 2,
         step: 0.1,
@@ -707,7 +707,7 @@ export default class Hero {
       this.animationParams,
       'fadeInDuration',
       {
-        label: '淡入时长',
+        label: 'Fade-in Duration',
         min: 0.1,
         max: 2.0,
         step: 0.1,
@@ -718,7 +718,7 @@ export default class Hero {
       this.animationParams,
       'fadeOutDuration',
       {
-        label: '淡出时长',
+        label: 'Fade-out Duration',
         min: 0.1,
         max: 2.0,
         step: 0.1,
@@ -730,7 +730,7 @@ export default class Hero {
       this.animationParams,
       'paused',
       {
-        label: '暂停',
+        label: 'Pause',
       },
     ).on('change', (event) => {
       if (event.value) {
@@ -753,7 +753,7 @@ export default class Hero {
       this.debugAnimation,
       'loopMode',
       {
-        label: '循环模式',
+        label: 'Loop Mode',
         options: {
           单次播放: 'LoopOnce',
           循环播放: 'LoopRepeat',
@@ -772,13 +772,13 @@ export default class Hero {
 
     // ----- 动画操作按钮 -----
     const animButtonsFolder = this.debugFolder.addFolder({
-      title: '动画操作',
+      title: 'Animation Operations',
       expanded: true,
     })
 
     // 重置动画按钮
     animButtonsFolder.addButton({
-      title: '重置动画',
+      title: 'Reset Animation',
     }).on('click', () => {
       const action = this.animation.actions[this.animation.current]
       action.reset().play()
@@ -786,7 +786,7 @@ export default class Hero {
 
     // 停止所有动画按钮
     animButtonsFolder.addButton({
-      title: '停止所有动画',
+      title: 'Stop All Animations',
     }).on('click', () => {
       Object.values(this.animation.actions).forEach((action) => {
         action.stop()
@@ -795,7 +795,7 @@ export default class Hero {
 
     // 重新激活动画按钮
     animButtonsFolder.addButton({
-      title: '重新激活当前动画',
+      title: 'Reactivate Current Animation',
     }).on('click', () => {
       // 重置并重新播放当前动画
       const currentAnimation = this.animation.current
@@ -806,7 +806,7 @@ export default class Hero {
 
     // ===== 角色变换控制面板 =====
     const transformFolder = this.debug.ui.addFolder({
-      title: '角色变换控制',
+      title: 'Character Transform Control',
       expanded: false,
     })
 
@@ -815,7 +815,7 @@ export default class Hero {
       this.heroParams,
       'position',
       {
-        label: '位置',
+        label: 'Position',
         x: { min: -50, max: 50, step: 0.1 },
         y: { min: -50, max: 50, step: 0.1 },
         z: { min: -50, max: 50, step: 0.1 },
@@ -829,7 +829,7 @@ export default class Hero {
       this.heroParams,
       'rotation',
       {
-        label: '旋转',
+        label: 'Rotation',
         x: { min: -Math.PI, max: Math.PI, step: 0.1 },
         y: { min: -Math.PI, max: Math.PI, step: 0.1 },
         z: { min: -Math.PI, max: Math.PI, step: 0.1 },
@@ -843,7 +843,7 @@ export default class Hero {
       this.heroParams,
       'scale',
       {
-        label: '缩放',
+        label: 'Scale',
         x: { min: 0.1, max: 5, step: 0.1 },
         y: { min: 0.1, max: 5, step: 0.1 },
         z: { min: 0.1, max: 5, step: 0.1 },
@@ -857,7 +857,7 @@ export default class Hero {
       this.heroParams,
       'visible',
       {
-        label: '可见性',
+        label: 'Visibility',
       },
     ).on('change', () => {
       this.hero.visible = this.heroParams.visible
@@ -869,7 +869,7 @@ export default class Hero {
       this,
       'skeletonVisible',
       {
-        label: '显示骨骼',
+        label: 'Show Skeleton',
       },
     ).on('change', (event) => {
       // 遍历场景中的所有SkeletonHelper
@@ -882,7 +882,7 @@ export default class Hero {
 
     // Add camera follow controls to debug panel
     const cameraFolder = this.debug.ui.addFolder({
-      title: '相机跟随设置',
+      title: 'Camera Tracking Settings',
       expanded: false,
     })
 
@@ -891,7 +891,7 @@ export default class Hero {
       this.cameraOffset,
       'x',
       {
-        label: '相机X偏移',
+        label: 'Camera X Offset',
         min: -10,
         max: 10,
         step: 0.1,
@@ -902,7 +902,7 @@ export default class Hero {
       this.cameraOffset,
       'y',
       {
-        label: '相机Y偏移',
+        label: 'Camera Y Offset',
         min: -10,
         max: 10,
         step: 0.1,
@@ -913,7 +913,7 @@ export default class Hero {
       this.cameraOffset,
       'z',
       {
-        label: '相机Z偏移',
+        label: 'Camera Z Offset',
         min: -10,
         max: 10,
         step: 0.1,
@@ -925,7 +925,7 @@ export default class Hero {
       this,
       'cameraLerpFactor',
       {
-        label: '相机平滑度',
+        label: 'Camera Smoothness',
         min: 0.01,
         max: 0.5,
         step: 0.01,

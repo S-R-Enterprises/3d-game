@@ -14,7 +14,7 @@ export default class EventPoint {
    * @param {string} [interactionText] 交互提示文本
    * @param {string} [iconName] 交互图标名称
    */
-  constructor(targetPosition, radius, callback, interactionText = '按 F 键互动', iconName = 'chat.png') {
+  constructor(targetPosition, radius, callback, interactionText = 'Press F to interact', iconName = 'chat.png') {
     this.experience = new Experience()
     this.hero = this.experience.world?.hero // 获取英雄实例 (初始可能为 null)
     this.targetPosition = targetPosition // 目标位置

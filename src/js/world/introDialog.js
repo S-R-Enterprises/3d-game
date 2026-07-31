@@ -47,6 +47,18 @@ export default class IntroDialog extends EventEmitter {
 
     // 监听语言变更事件
     this.on('languageChanged', () => this.updateTranslations())
+
+    // 绑定跳过按钮事件
+    this.skipBtn = document.getElementById('skipDialogBtn')
+    if (this.skipBtn) {
+      this.skipBtn.addEventListener('click', () => {
+        this.stopIntroContentLoop()
+        if (this.typed) {
+          this.typed.destroy()
+        }
+        this.hideDialog()
+      })
+    }
   }
 
   /**
@@ -132,7 +144,7 @@ export default class IntroDialog extends EventEmitter {
     // 获取区域内容
     const content = [this.interactionContent[areaId]]
     if (!content) {
-      console.warn(`未找到区域 ${areaId} 的内容`)
+      console.warn(`Area content not found: ${areaId}`)
       return
     }
 

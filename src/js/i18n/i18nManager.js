@@ -8,42 +8,41 @@ export default class I18nManager {
     }
     I18nManager.instance = this
 
-    // 初始化语言设置
-    this.currentLang = localStorage.getItem('lang') || 'zh'
+    // Initialize language (English / Tamil only)
+    const savedLang = localStorage.getItem('lang')
+    this.currentLang = (savedLang === 'en' || savedLang === 'ta') ? savedLang : 'en'
     this.translations = translations
 
-    // 创建事件发射器
     this.listeners = new Set()
   }
 
   /**
-   * 获取当前语言
-   * @returns {string} 当前语言代码
+   * Get current language code
+   * @returns {string}
    */
   getCurrentLang() {
     return this.currentLang
   }
 
   /**
-   * 切换语言
-   * @param {string} lang - 目标语言代码
+   * Set language
+   * @param {string} lang - Target language code ('en' | 'ta')
    */
   setLang(lang) {
     if (this.translations[lang]) {
       this.currentLang = lang
       localStorage.setItem('lang', lang)
-      // 通知所有监听器
       this.notifyListeners()
     }
     else {
-      console.warn(`不支持的语言: ${lang}`)
+      console.warn(`Unsupported language: ${lang}`)
     }
   }
 
   /**
-   * 获取翻译文本
-   * @param {string} path - 文本路径，例如 'intro.vision'
-   * @returns {string} 翻译后的文本
+   * Get translated text
+   * @param {string} path - Path like 'intro.vision'
+   * @returns {string}
    */
   t(path) {
     const keys = path.split('.')
@@ -54,7 +53,7 @@ export default class I18nManager {
         result = result[key]
       }
       else {
-        console.warn(`翻译路径不存在: ${path}`)
+        console.warn(`Translation path not found: ${path}`)
         return path
       }
     }
@@ -63,23 +62,23 @@ export default class I18nManager {
   }
 
   /**
-   * 添加语言变更监听器
-   * @param {Function} listener - 监听器函数
+   * Add language-change listener
+   * @param {Function} listener
    */
   addListener(listener) {
     this.listeners.add(listener)
   }
 
   /**
-   * 移除语言变更监听器
-   * @param {Function} listener - 监听器函数
+   * Remove language-change listener
+   * @param {Function} listener
    */
   removeListener(listener) {
     this.listeners.delete(listener)
   }
 
   /**
-   * 通知所有监听器语言已变更
+   * Notify all listeners
    */
   notifyListeners() {
     this.listeners.forEach(listener => listener(this.currentLang))

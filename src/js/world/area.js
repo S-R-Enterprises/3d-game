@@ -6,8 +6,8 @@ import outlineFragmentShader from '../../shaders/outline/fragment.glsl'
 import outlineVertexShader from '../../shaders/outline/vertex.glsl'
 
 import Experience from '../experience.js'
-import BrandDialog from './brandDialog.js'
-import Chicken from './chicken.js'
+import Horse from './horse.js'
+import OdysseyTitle from './odysseyTitle.js'
 import Skybox from './skybox.js'
 
 export default class Area {
@@ -19,9 +19,6 @@ export default class Area {
     this.iMouse = this.experience.iMouse
     this.time = this.experience.time // 获取 time 实例
     this.debug = this.experience.debug
-
-    // Initialize brand dialog
-    this.brandDialog = new BrandDialog()
 
     this.homeStuffs = [
       // 床
@@ -56,8 +53,9 @@ export default class Area {
       'spawn-round',
     ]
     this.homeStuffsObject = []
-    this.brandStuffs = ['brand1', 'brand2', 'brand3']
-    this.brandStuffsObject = []
+    // Project billboards + old HexianWeb 3D title signs removed for Odyssey
+    this.billboardNames = ['brand1', 'brand2', 'brand3']
+    this.legacyTitleNames = ['homeStart', 'projects']
     this.outlineMeshes = [] // 存储轮廓网格和它们的材质
 
     this.raycaster = new THREE.Raycaster()
@@ -73,8 +71,10 @@ export default class Area {
     // Store the currently hovered object
     this.hoveredObject = null
 
-    // 小鸡实例
-    this.chicken = new Chicken()
+    // Horse near hay bales
+    this.horse = new Horse()
+    // Odyssey 3D world title
+    this.odysseyTitle = new OdysseyTitle()
 
     this.setupArea()
     window.addEventListener('mousemove', this.onMouseMove.bind(this))
@@ -152,8 +152,13 @@ export default class Area {
           this.outlineMeshes.push({ mesh: outlineMesh, material: outlineMaterial })
         }
       }
-      if (this.brandStuffs.includes(child.name)) {
-        this.brandStuffsObject.push(child)
+      // Hide project billboards completely
+      if (this.billboardNames.includes(child.name)) {
+        child.visible = false
+      }
+      // Hide legacy HexianWeb 3D title signs
+      if (this.legacyTitleNames.includes(child.name)) {
+        child.visible = false
       }
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
@@ -165,9 +170,6 @@ export default class Area {
     // ====== 天空盒迁移 ======
     // 原有天空盒代码已移除
     this.skybox = new Skybox()
-
-    // 显示小鸡交互提示
-    this.chicken.showInteractionPrompt()
   }
 
   onMouseMove() {
@@ -220,20 +222,6 @@ export default class Area {
   }
 
   onMouseDown() {
-    // 检查是否点击到小鸡
-    if (this.chicken && this.chicken.chickenObject) {
-      this.raycaster.setFromCamera(this.iMouse.normalizedMouse, this.camera)
-      const chickenIntersects = this.raycaster.intersectObject(this.chicken.chickenObject, true)
-      if (chickenIntersects.length > 0) {
-        this.chicken.onClick()
-        return // 避免后续 brandStuffsObject 检测
-      }
-    }
-    const intersects = this.raycaster.intersectObjects(this.brandStuffsObject)
-    if (intersects.length > 0) {
-      const brandName = intersects[0].object.parent.name
-      this.brandDialog.showDialog(brandName)
-    }
   }
 
   update() {
@@ -242,9 +230,9 @@ export default class Area {
     for (const { material } of this.outlineMeshes) {
       material.uniforms.uTime.value = time
     }
-    // 更新小鸡动画
-    if (this.chicken) {
-      this.chicken.update()
+    // 更新马动画
+    if (this.horse) {
+      this.horse.update()
     }
   }
 
@@ -252,13 +240,13 @@ export default class Area {
   debugInit() {
     // ===== 轮廓发光控制面板 =====
     this.debugFolder = this.debug.ui.addFolder({
-      title: '轮廓发光效果',
+      title: 'Outline Glow Effect',
       expanded: false,
     })
 
     // ----- 基本属性控制 -----
     const basicFolder = this.debugFolder.addFolder({
-      title: '基本属性',
+      title: 'Basic Properties',
       expanded: true,
     })
 
@@ -267,7 +255,7 @@ export default class Area {
       this.outlineParams,
       'thickness',
       {
-        label: '轮廓厚度',
+        label: 'Outline Thickness',
         min: 0,
         max: 0.1,
         step: 0.001,
@@ -283,7 +271,7 @@ export default class Area {
       this.outlineParams,
       'color',
       {
-        label: '轮廓颜色',
+        label: 'Outline Color',
         view: 'color',
       },
     ).on('change', () => {
@@ -297,7 +285,7 @@ export default class Area {
       this.outlineParams,
       'opacity',
       {
-        label: '基础不透明度',
+        label: 'Base Opacity',
         min: 0,
         max: 1,
         step: 0.01,
@@ -310,7 +298,7 @@ export default class Area {
 
     // ----- 呼吸效果控制 -----
     const breathingFolder = this.debugFolder.addFolder({
-      title: '呼吸效果',
+      title: 'Breathing Effect',
       expanded: true,
     })
 
@@ -319,7 +307,7 @@ export default class Area {
       this.outlineParams,
       'breathingSpeed',
       {
-        label: '呼吸速度',
+        label: 'Breathing Speed',
         min: 0.1,
         max: 10,
         step: 0.1,
@@ -335,7 +323,7 @@ export default class Area {
       this.outlineParams,
       'breathingMin',
       {
-        label: '最小亮度',
+        label: 'Min Brightness',
         min: 0,
         max: 1,
         step: 0.01,
@@ -351,7 +339,7 @@ export default class Area {
       this.outlineParams,
       'breathingRange',
       {
-        label: '亮度变化范围',
+        label: 'Brightness Range',
         min: 0,
         max: 1,
         step: 0.01,

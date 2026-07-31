@@ -197,7 +197,7 @@ export default class Ocean {
   debugInit() {
     // 创建调试面板
     this.debugFolder = this.debug.ui.addFolder({
-      title: '海洋',
+      title: 'Ocean',
       expanded: false,
     })
 
@@ -206,7 +206,7 @@ export default class Ocean {
       this.debugObject,
       'surfaceColor',
       {
-        label: '海面颜色',
+        label: 'Ocean Color',
         view: 'color',
       },
     ).on('change', () => {
@@ -219,7 +219,7 @@ export default class Ocean {
       this.debugObject,
       'foamColor',
       {
-        label: '泡沫颜色',
+        label: 'Foam Color',
         view: 'color',
       },
     ).on('change', () => {
@@ -232,7 +232,7 @@ export default class Ocean {
       this.debugObject,
       'nightDarkFactor',
       {
-        label: '夜晚变暗系数',
+        label: 'Night Darken Factor',
         min: 0,
         max: 1,
         step: 0.01,
@@ -246,7 +246,7 @@ export default class Ocean {
       this.debugObject,
       'colorOffset',
       {
-        label: '颜色偏移',
+        label: 'Color Offset',
         min: 0,
         max: 1,
       },
@@ -258,7 +258,7 @@ export default class Ocean {
       this.debugObject,
       'colorMultiplier',
       {
-        label: '颜色倍增',
+        label: 'Color Multiplier',
         min: 0,
         max: 10,
       },
@@ -271,7 +271,7 @@ export default class Ocean {
       this.debugObject,
       'flowSpeed',
       {
-        label: '流动速度',
+        label: 'Flow Speed',
         min: -5,
         max: 5,
         step: 0.1,
@@ -285,7 +285,7 @@ export default class Ocean {
       this.debugObject,
       'waveSpeed',
       {
-        label: '波浪速度',
+        label: 'Wave Speed',
         min: 0,
         max: 0.3,
         step: 0.001,
@@ -299,7 +299,7 @@ export default class Ocean {
       this.debugObject,
       'noiseScale',
       {
-        label: '噪声缩放',
+        label: 'Noise Scale',
         min: 0.1,
         max: 10,
         step: 0.1,
@@ -313,7 +313,7 @@ export default class Ocean {
       this.debugObject,
       'waveHeight',
       {
-        label: '波浪高度',
+        label: 'Wave Height',
         min: 0,
         max: 4,
         step: 0.1,

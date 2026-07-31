@@ -5,57 +5,53 @@ export default class LanguageSwitcher extends EventEmitter {
   constructor() {
     super()
 
-    // 获取 i18n 管理器实例
+    // Get i18n manager instance
     this.i18n = new I18nManager()
 
-    // 绑定 i18n 按钮点击事件
+    // Bind i18n button click events
     this.bindEvents()
   }
 
   bindEvents() {
-    // 获取 i18n 切换按钮
     const i18nButton = document.getElementById('i18nToggle')
     if (!i18nButton) {
-      console.warn('未找到 i18n 切换按钮')
+      console.warn('i18n toggle button not found')
       return
     }
 
-    // 添加点击事件
     i18nButton.addEventListener('click', (event) => {
       const currentLang = this.i18n.getCurrentLang()
-      // 切换语言
-      const newLang = currentLang === 'zh' ? 'en' : 'zh'
+      // Toggle between English and Tamil
+      const newLang = currentLang === 'en' ? 'ta' : 'en'
       this.i18n.setLang(newLang)
 
-      // 触发语言切换事件
       this.trigger('languageChanged', newLang)
-
-      // 更新按钮图标状态
       this.updateButtonState(newLang)
 
-      // --- 关键步骤：在处理完逻辑后调用 blur() ---
-      event.currentTarget.blur() // event.currentTarget 指向被点击的按钮
+      event.currentTarget.blur()
     })
 
-    // 初始化按钮状态
     this.updateButtonState(this.i18n.getCurrentLang())
   }
 
   /**
-   * 更新按钮状态
-   * @param {string} lang - 当前语言
+   * Update button icon for current language
+   * @param {string} lang - Current language code
    */
   updateButtonState(lang) {
     const i18nButton = document.getElementById('i18nToggle')
     if (!i18nButton)
       return
 
-    const i18nIcon = i18nButton.querySelector('img')
-    if (!i18nIcon)
-      return
-
-    // 根据语言更新图标
-    i18nIcon.src = lang === 'zh' ? '/icon/i18n-zh.png' : '/icon/i18n-en.png'
-    i18nIcon.alt = lang === 'zh' ? '切换到英文' : 'Switch to Chinese'
+    // Show the language you can switch TO
+    if (lang === 'ta') {
+      // Current is Tamil, so button should show 'A' to switch to English
+      i18nButton.innerHTML = `<span style="font-size: 28px; font-weight: 900; color: #f6b539; font-family: monospace; user-select: none;">A</span>`
+      i18nButton.title = 'Switch to English'
+    } else {
+      // Current is English, so button should show 'த' to switch to Tamil
+      i18nButton.innerHTML = `<span style="font-size: 28px; font-weight: 900; color: #f6b539; font-family: sans-serif; user-select: none;">த</span>`
+      i18nButton.title = 'Switch to Tamil'
+    }
   }
 }

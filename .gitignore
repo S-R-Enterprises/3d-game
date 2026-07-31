@@ -41,3 +41,5 @@ yarn-error.log*
 *.sln
 *.sw?
 .cursor
+*.zip
+*.mp4
