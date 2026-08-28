@@ -2,7 +2,7 @@ import gsap from 'gsap'
 import * as THREE from 'three'
 
 import outlineFragmentShader from '../../shaders/outline/fragment.glsl'
-// 导入着色器代码
+
 import outlineVertexShader from '../../shaders/outline/vertex.glsl'
 
 import Experience from '../experience.js'
@@ -17,25 +17,25 @@ export default class Area {
     this.resources = this.experience.resources
     this.camera = this.experience.camera.instance
     this.iMouse = this.experience.iMouse
-    this.time = this.experience.time // 获取 time 实例
+    this.time = this.experience.time 
     this.debug = this.experience.debug
 
     this.homeStuffs = [
-      // 床
+      
       'bedroll',
       'bedroll-packed',
       'tent-canvas',
-      // 啤酒
+      
       'chest',
       'bottle',
-      // 铁砧
+      
       'workbench-anvil',
       'tool-axe-upgraded',
       'tool-hammer',
       'weapon-rack',
-      // 武器
+      
       'weapon-sword',
-      // 椅子 + 饭
+      
       'bench',
       'bench-short',
       'bottle-large',
@@ -46,24 +46,24 @@ export default class Area {
       'fish',
       'fish-bones',
       'fish-bones.001',
-      '圆环',
-      // 锅
+      'Torus',
+      
       'pan',
-      // 水井
+      
       'spawn-round',
     ]
     this.homeStuffsObject = []
     // Project billboards + old HexianWeb 3D title signs removed for Odyssey
     this.billboardNames = ['brand1', 'brand2', 'brand3']
     this.legacyTitleNames = ['homeStart', 'projects']
-    this.outlineMeshes = [] // 存储轮廓网格和它们的材质
+    this.outlineMeshes = [] 
 
     this.raycaster = new THREE.Raycaster()
 
-    // 创建基础轮廓材质（作为模板）
+    
     this.createBaseMaterial()
 
-    // 如果debug模式激活，添加调试面板
+    
     if (this.debug.active) {
       this.debugInit()
     }
@@ -81,9 +81,9 @@ export default class Area {
     window.addEventListener('click', this.onMouseDown.bind(this))
   }
 
-  // 创建基础材质方法
+  
   createBaseMaterial() {
-    // 定义默认参数
+    
     this.outlineParams = {
       thickness: 0.051,
       color: '#d7df9c',
@@ -94,7 +94,7 @@ export default class Area {
       timeOffset: Math.PI * 2,
     }
 
-    // 基础材质配置
+    
     this.baseMaterialConfig = {
       uniforms: {
         uOutlineThickness: { value: this.outlineParams.thickness },
@@ -113,9 +113,9 @@ export default class Area {
     }
   }
 
-  // 创建独立材质实例方法
+  
   createMaterialInstance(_index) {
-    // 为每个实例创建新的uniforms对象
+    
     const materialConfig = {
       ...this.baseMaterialConfig,
       uniforms: {
@@ -128,27 +128,27 @@ export default class Area {
 
   setupArea() {
     this.model = this.resources.items.sceneModel
-    let meshIndex = 0 // 用于生成时间偏移
+    let meshIndex = 0 
 
-    // 设置模型接受阴影
+    
     this.model.scene.traverse((child) => {
       if (this.homeStuffs.includes(child.name)) {
         this.homeStuffsObject.push(child)
 
-        // 确保子对象是 Mesh 并且有几何体
+        
         if (child instanceof THREE.Mesh && child.geometry) {
-          // 为每个轮廓创建独立的材质实例
+          
           const outlineMaterial = this.createMaterialInstance(meshIndex++)
 
-          // 创建轮廓网格
+          
           const outlineMesh = new THREE.Mesh(child.geometry, outlineMaterial)
           outlineMesh.name = `${child.name}_outline`
           outlineMesh.castShadow = false
           outlineMesh.receiveShadow = false
 
-          // 将轮廓网格添加为原始网格的子对象
+          
           child.add(outlineMesh)
-          // 保存轮廓网格和它的材质引用
+          
           this.outlineMeshes.push({ mesh: outlineMesh, material: outlineMaterial })
         }
       }
@@ -167,8 +167,8 @@ export default class Area {
     })
     this.scene.add(this.model.scene)
 
-    // ====== 天空盒迁移 ======
-    // 原有天空盒代码已移除
+    
+    
     this.skybox = new Skybox()
   }
 
@@ -193,7 +193,7 @@ export default class Area {
           })
         }
 
-        // Scale up new object (父对象缩放，子轮廓也会一起缩放)
+        
         this.hoveredObject = intersectedObject
         gsap.to(this.hoveredObject.scale, {
           x: 1.2,
@@ -225,32 +225,32 @@ export default class Area {
   }
 
   update() {
-    // 更新每个轮廓材质的时间 uniform
+    
     const time = this.time.elapsed * 0.002
     for (const { material } of this.outlineMeshes) {
       material.uniforms.uTime.value = time
     }
-    // 更新马动画
+    
     if (this.horse) {
       this.horse.update()
     }
   }
 
-  // 调试面板初始化
+  
   debugInit() {
-    // ===== 轮廓发光控制面板 =====
+    
     this.debugFolder = this.debug.ui.addFolder({
       title: 'Outline Glow Effect',
       expanded: false,
     })
 
-    // ----- 基本属性控制 -----
+    
     const basicFolder = this.debugFolder.addFolder({
       title: 'Basic Properties',
       expanded: true,
     })
 
-    // 轮廓厚度控制
+    
     basicFolder.addBinding(
       this.outlineParams,
       'thickness',
@@ -266,7 +266,7 @@ export default class Area {
       })
     })
 
-    // 轮廓颜色控制
+    
     basicFolder.addBinding(
       this.outlineParams,
       'color',
@@ -280,7 +280,7 @@ export default class Area {
       })
     })
 
-    // 基础不透明度控制
+    
     basicFolder.addBinding(
       this.outlineParams,
       'opacity',
@@ -296,13 +296,13 @@ export default class Area {
       })
     })
 
-    // ----- 呼吸效果控制 -----
+    
     const breathingFolder = this.debugFolder.addFolder({
       title: 'Breathing Effect',
       expanded: true,
     })
 
-    // 呼吸速度控制
+    
     breathingFolder.addBinding(
       this.outlineParams,
       'breathingSpeed',
@@ -318,7 +318,7 @@ export default class Area {
       })
     })
 
-    // 最小亮度控制
+    
     breathingFolder.addBinding(
       this.outlineParams,
       'breathingMin',
@@ -334,7 +334,7 @@ export default class Area {
       })
     })
 
-    // 亮度变化范围控制
+    
     breathingFolder.addBinding(
       this.outlineParams,
       'breathingRange',
@@ -351,3 +351,5 @@ export default class Area {
     })
   }
 }
+
+// Updated on 2026-08-28

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-// 获取边界
+
 export function getBound(object, precise = true) {
   const box3 = new THREE.Box3().setFromObject(object, precise)
 
@@ -22,3 +22,5 @@ export function getBound(object, precise = true) {
     depth,
   }
 }
+
+// Updated on 2026-08-28

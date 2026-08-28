@@ -19,7 +19,7 @@ window.addEventListener('load', () => {
 
   // Initialize and show game guide
   const gameGuide = new GameGuide()
-  // 检查是否完成了新手指引
+  
   if (!localStorage.getItem('hasCompletedGuide')) {
     gameGuide.showGuide()
   }
@@ -42,3 +42,5 @@ function toggleDebugHash() {
   }
   window.location.reload()
 }
+
+// Updated on 2026-08-28

@@ -1,10 +1,10 @@
-import * as THREE from 'three' // 引入 THREE 用于 Vector3
+import * as THREE from 'three' 
 import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 import Experience from '../experience.js'
 import Area from './area.js'
 import Effects from './effect.js'
 import Environment from './environment.js'
-import EventPointManager from './eventPointManager.js' // 引入事件点管理器类
+import EventPointManager from './eventPointManager.js' 
 import Hero from './hero.js'
 import IntroDialog from './introDialog.js'
 import Lava from './lava.js'
@@ -20,49 +20,45 @@ export default class World {
     this.sizes = this.experience.sizes
     this.camera = this.experience.camera
 
-    // 初始化对话框管理器
+    
     this.introDialog = new IntroDialog()
 
-    // 开始轮询显示介绍内容
+    
     this.startIntroContentLoop()
 
-    // 初始化 CSS2D 渲染器
+    
     this.initCSS2DRenderer()
 
-    this.eventPointManager = new EventPointManager() // 实例化事件点管理器
+    this.eventPointManager = new EventPointManager() 
     // Environment
     this.resources.on('ready', () => {
       // Setup
       this.environment = new Environment()
       this.hero = new Hero()
       this.area = new Area()
-      // 初始化岩浆效果
+      
       this.lava = new Lava()
-      // 初始化海洋
+      
       this.ocean = new Ocean()
-      // 初始化传送门效果
+      
       this.portalEffect = new PortalEffect()
-      // 初始化斯巴达人
+      
       this.spartans = new Spartans()
 
-      // 英雄和其他资源准备好后，设置事件点
+      
       this.setupEventPoints()
     })
 
     this.effects = new Effects()
   }
 
-  /**
-   * 开始轮询显示介绍内容
-   */
+  
   startIntroContentLoop() {
-    // 显示第一条内容
+    
     this.introDialog.startIntroContentLoop()
   }
 
-  /**
-   * 初始化 CSS2D 渲染器
-   */
+  
   initCSS2DRenderer() {
     this.css2dRenderer = new CSS2DRenderer()
     this.css2dRenderer.setSize(this.sizes.width, this.sizes.height)
@@ -72,9 +68,7 @@ export default class World {
     document.body.appendChild(this.css2dRenderer.domElement)
   }
 
-  /**
-   * 设置场景中的所有事件触发点
-   */
+  
   setupEventPoints() {
     // Camp / rest area
     this.eventPointManager.createEventPoint(
@@ -198,18 +192,18 @@ export default class World {
     if (this.hero) {
       this.hero.update()
     }
-    // 更新岩浆效果
+    
     if (this.lava) {
       this.lava.update()
     }
     if (this.environment) {
       this.environment.update()
     }
-    // 更新海洋
+    
     if (this.ocean) {
       this.ocean.update()
     }
-    // 更新传送门效果
+    
     if (this.portalEffect) {
       this.portalEffect.update()
     }
@@ -218,7 +212,7 @@ export default class World {
     }
     this.effects.update()
 
-    // 更新事件点管理器 (检查是否有事件触发)
+    
     if (this.eventPointManager) {
       this.eventPointManager.update()
     }
@@ -226,7 +220,7 @@ export default class World {
       this.area.update()
     }
 
-    // 更新 CSS2D 渲染
+    
     if (this.css2dRenderer && this.camera?.instance) {
       this.css2dRenderer.render(this.scene, this.camera.instance)
     }
@@ -234,14 +228,16 @@ export default class World {
 
   resize() {
     this.effects.resize()
-    // 更新岩浆效果尺寸
+    
     if (this.lava) {
       this.lava.resize()
     }
 
-    // 更新 CSS2D 渲染器尺寸
+    
     if (this.css2dRenderer) {
       this.css2dRenderer.setSize(this.sizes.width, this.sizes.height)
     }
   }
 }
+
+// Updated on 2026-08-28

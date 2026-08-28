@@ -20,7 +20,7 @@ export default class GlassWall {
 
     this.bgScene = new THREE.RenderTarget(this.sizes.width, this.sizes.height)
 
-    this.targetLightPosition = new THREE.Vector3(0, 0, 0.491) // 初始 z 值保持不变
+    this.targetLightPosition = new THREE.Vector3(0, 0, 0.491) 
 
     this.targetPoint = new THREE.Vector2(0.35, 0.06)
     this.maxDistance = 1.2
@@ -34,15 +34,15 @@ export default class GlassWall {
     const { x, y } = this.iMouse.normalizedMouse
     const mousePosition = new THREE.Vector2(x, y)
     this.targetLightPosition.x = THREE.MathUtils.mapLinear(x, 0, 1, -0.3, 0.3)
-    // 将 y 从 [-1, 1] 映射到 [-1, 1]（y 轴不需要改变范围）
+    
     this.targetLightPosition.y = 1 - Math.abs(y)
 
     this.glassMaterial.uniforms.uLight.value.x = this.targetLightPosition.x
     this.glassMaterial.uniforms.uLight.value.y = this.targetLightPosition.y
-    // 计算鼠标位置与目标点的距离
+    
     const distance = mousePosition.distanceTo(this.targetPoint)
 
-    // 根据距离调整 Chromatic Aberration
+    
     let chromaticAberration
     distance >= this.maxDistance
       ? (chromaticAberration = this.initialChromaticAberration)
@@ -54,7 +54,7 @@ export default class GlassWall {
           this.initialChromaticAberration,
         ))
 
-    // 更新 Chromatic Aberration uniform
+    
     this.glassMaterial.uniforms.uChromaticAberration.value
       = chromaticAberration
   }
@@ -120,7 +120,7 @@ export default class GlassWall {
     )
     for (let index = 0; index <= 25; index++) {
       const glassColumn = new THREE.Mesh(glassGeometry, this.glassMaterial)
-      //   沿着X正轴排列
+      
       glassColumn.position.set(index * (THICK + 0.03) + 2.5, 0, 0)
       this.glassWallGroup.add(glassColumn)
     }
@@ -128,7 +128,7 @@ export default class GlassWall {
   }
 
   update() {
-    this.updateLightPositionSmooth() // 添加这行
+    this.updateLightPositionSmooth() 
 
     console.log(this.iMouse.normalizedMouse)
 
@@ -224,7 +224,7 @@ export default class GlassWall {
         max: 1,
         step: 0.01,
       })
-      // 光源方向控制
+      
       const lightFolder = f1.addFolder({
         title: 'Light Direction',
       })
@@ -242,7 +242,7 @@ export default class GlassWall {
         step: 0.01,
       })
 
-      // z 轴保持不变
+      
       lightFolder.addBinding(this.glassMaterial.uniforms.uLight.value, 'z', {
         label: 'Light Z',
         min: -3,
@@ -259,3 +259,5 @@ export default class GlassWall {
     }
   }
 }
+
+// Updated on 2026-08-28

@@ -7,9 +7,9 @@ uniform float uIorC;
 uniform float uIorB;
 uniform float uIorP;
 
-uniform float uRefractFactor; // 可以增加/减少每个样本的折射效果
-uniform float uChromaticAberration; //控制不同颜色通道之间的分离强度
-uniform float uSaturation; //控制颜色饱和度
+uniform float uRefractFactor; 
+uniform float uChromaticAberration; 
+uniform float uSaturation; 
 
 uniform float uShininess;
 uniform float uDiffuseness;
@@ -72,7 +72,7 @@ void main(){
     vec3 refractVecP = refract(eyeVector, normal, (1.0/uIorP));
 
 
-    // 使用 uRefractFactor 来调整折射效果
+    
     float r = texture2D(uTexture, screenUV + refractVecR.xy * (uRefractFactor + slide * 1.0) * uChromaticAberration).x * 0.5;
 
     float y = (texture2D(uTexture, screenUV + refractVecY.xy * (uRefractFactor + slide * 1.0) * uChromaticAberration).x * 2.0 +
@@ -112,7 +112,7 @@ void main(){
   float f = fresnel(eyeVector, normal, uFresnelPower);
   color.rgb += f * vec3(1.0);
 
-  // 在最终颜色上添加一些噪声
+  
   vec3 finalNoise = vec3(noise(vUv * 10000.0)) * 0.05 * 0.3;
   // color -= finalNoise;
 
@@ -121,3 +121,4 @@ void main(){
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }
+// Updated on 2026-08-28

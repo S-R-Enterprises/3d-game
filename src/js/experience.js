@@ -35,17 +35,17 @@ export default class Experience {
     this.sizes = new Sizes()
     this.time = new Time()
     this.scene = new THREE.Scene()
-    this.camera = new Camera(true) // 正交相机
+    this.camera = new Camera(true) 
     this.renderer = new Renderer()
     this.resources = new Resources(sources)
     this.physics = new PhysicsWorld()
     this.iMouse = new IMouse()
     this.world = new World()
 
-    // 初始化语言切换器
+    
     this.languageSwitcher = new LanguageSwitcher()
 
-    // 连接语言切换事件
+    
     if (this.world.introDialog) {
       this.languageSwitcher.on('languageChanged', (lang) => {
         this.world.introDialog.trigger('languageChanged', lang)
@@ -94,9 +94,9 @@ export default class Experience {
 
     this.iMouse.update()
 
-    // 全局监听 R 键重置角色位置
+    
     window.addEventListener('keydown', (event) => {
-      // 只在主场景激活时响应
+      
       if ((event.key === 'r' || event.key === 'R') && this.world && this.world.hero && typeof this.world.hero.resetPosition === 'function') {
         this.world.hero.resetPosition()
       }
@@ -107,3 +107,5 @@ export default class Experience {
     // ... existing code ...
   }
 }
+
+// Updated on 2026-08-28

@@ -16,8 +16,8 @@ export default class Hero {
     this.debug = this.experience.debug
 
     // Camera controls interaction flag
-    this.controls = this.experience.camera.orbitControls // 获取 OrbitControls 实例
-    this.isUserInteracting = false // 标志位，指示用户是否正在与相机交互
+    this.controls = this.experience.camera.orbitControls 
+    this.isUserInteracting = false 
 
     // Camera follow parameters
     this.cameraOffset = new THREE.Vector3(0, 2, 5) // Camera offset from character
@@ -65,7 +65,7 @@ export default class Hero {
       space: false,
     }
 
-    // 英雄角色参数
+    
     this.heroParams = {
       position: new THREE.Vector3(0, 0, 0),
       rotation: new THREE.Euler(0, 0, 0),
@@ -74,7 +74,7 @@ export default class Hero {
     }
 
     this.hero = this.resources.items.heroModel.scene.children[0]
-    console.warn('模型信息:', this.resources.items.heroModel)
+    console.warn('Model info:', this.resources.items.heroModel)
 
     this.collider = this.resources.items.colliderModel.scene
 
@@ -90,13 +90,13 @@ export default class Hero {
     this.animation.clips = this.resources.items.heroModel.animations
 
     if (this.animation.clips.length === 0) {
-      console.warn('没有找到动画剪辑，检查模型是否包含动画数据')
+      console.warn('No animation clips found, check if model contains animation data')
     }
     else {
-      console.warn(`找到${this.animation.clips.length}个动画剪辑`)
+      console.warn(`Found ${this.animation.clips.length} animation clips`)
     }
 
-    // 动画参数设置
+    
     this.animationParams = {
       fadeInDuration: 0.5,
       fadeOutDuration: 0.5,
@@ -108,7 +108,7 @@ export default class Hero {
     if (this.animation.clips.length) {
       this.animation.clips.forEach((clip) => {
         this.animation.actions[clip.name] = this.animation.mixer.clipAction(clip)
-        console.warn(`添加动画: ${clip.name}, 时长: ${clip.duration}秒`)
+        console.warn(`Add animation: ${clip.name}, duration: ${clip.duration}s`)
       })
 
       // Set current action
@@ -116,7 +116,7 @@ export default class Hero {
       this.animation.actions[this.animation.current].play()
 
       // Log available animations
-      console.warn('可用动画列表:', this.animation.clips.map(clip => clip.name))
+      console.warn('Available animations:', this.animation.clips.map(clip => clip.name))
     }
 
     this.setHero()
@@ -244,7 +244,7 @@ export default class Hero {
     // Store animations in a map for easy access
     animations.forEach((animation) => {
       this.animations[animation.name] = this.mixer.clipAction(animation)
-      console.warn(`添加动画: ${animation.name}, 时长: ${animation.duration}秒`)
+      console.warn(`Add animation: ${animation.name}, duration: ${animation.duration}s`)
     })
 
     // Play idle animation by default
@@ -252,7 +252,7 @@ export default class Hero {
   }
 
   setupEventListeners() {
-    // 定义动作映射
+    
     this.actions = {
       up: false,
       down: false,
@@ -263,7 +263,7 @@ export default class Hero {
       reset: false,
     }
 
-    // 按键按下事件
+    
     window.addEventListener('keydown', (e) => {
       switch (e.code) {
         case 'ArrowUp':
@@ -299,7 +299,7 @@ export default class Hero {
         case 'Space':
           this.actions.brake = true
           this.keys.space = true
-          // 跳跃逻辑
+          
           if (e.code === 'Space' && this.playerOnFloor && !this.character.isSitting) {
             this.jump()
           }
@@ -312,7 +312,7 @@ export default class Hero {
 
         case 'KeyR':
           this.actions.reset = true
-          // 按下R键时重置角色位置
+          
           this.resetPosition()
           break
 
@@ -322,7 +322,7 @@ export default class Hero {
       }
     })
 
-    // 按键松开事件
+    
     window.addEventListener('keyup', (e) => {
       switch (e.code) {
         case 'ArrowUp':
@@ -372,9 +372,7 @@ export default class Hero {
     })
   }
 
-  /**
-   * 监听 OrbitControls 的 start 和 end 事件
-   */
+  
   setupControlsListeners() {
     if (this.controls) {
       this.controls.addEventListener('start', () => {
@@ -393,48 +391,48 @@ export default class Hero {
     if (this.character.isSitting)
       return
 
-    // 计算移动方向
+    
     let moveX = 0
     let moveZ = 0
     let newDirection = null
 
-    // 重力
+    
     if (!this.playerOnFloor) {
       this.playerVelocity.y -= this.GRAVITY * deltaTime
     }
 
-    // 速度
+    
     const speedDelta = deltaTime * (this.playerOnFloor ? 25 : 8)
 
-    // 用 actions 判断移动
+    
     if (this.actions.up) {
       moveZ = -speedDelta
-      newDirection = new THREE.Vector3(0, 0, 1) // 朝向-Z
+      newDirection = new THREE.Vector3(0, 0, 1) 
     }
     else if (this.actions.down) {
       moveZ = speedDelta
-      newDirection = new THREE.Vector3(0, 0, -1) // 朝向+Z
+      newDirection = new THREE.Vector3(0, 0, -1) 
     }
     else if (this.actions.left) {
       moveX = -speedDelta
-      newDirection = new THREE.Vector3(1, 0, 0) // 朝向-X
+      newDirection = new THREE.Vector3(1, 0, 0) 
     }
     else if (this.actions.right) {
       moveX = speedDelta
-      newDirection = new THREE.Vector3(-1, 0, 0) // 朝向+X
+      newDirection = new THREE.Vector3(-1, 0, 0) 
     }
 
-    // 添加速度
+    
     if (moveX !== 0 || moveZ !== 0) {
-      // 更新角色朝向
+      
       this.updateCharacterRotation(newDirection)
 
-      // 只有在地面且不是跳跃时才播放行走动画
+      
       if (this.playerOnFloor && this.currentAnimation !== this.animations.jump) {
         this.playAnimation('walk')
       }
 
-      // 添加速度
+      
       if (moveX !== 0) {
         this.playerVelocity.x += moveX
       }
@@ -443,31 +441,31 @@ export default class Hero {
       }
     }
     else if (this.playerOnFloor) {
-      // 没有移动时播放待机动画
+      
       if (!this.character.isSitting && this.currentAnimation !== this.animations.jump) {
         this.playAnimation('idle')
       }
     }
 
-    // 阻尼
+    
     const damping = Math.exp(-4 * deltaTime) - 1
     this.playerVelocity.addScaledVector(this.playerVelocity, damping)
 
-    // 位置更新
+    
     const deltaPosition = this.playerVelocity.clone().multiplyScalar(deltaTime)
     this.playerCollider.translate(deltaPosition)
 
-    // 动画状态更新
+    
     this.updateAnimationState()
   }
 
   updateAnimationState() {
-    // 如果刚落地
+    
     if (this.playerOnFloor && this.currentAnimation === this.animations.jump) {
-      // 判断是否有移动动作
+      
       const isMoving = this.actions.up || this.actions.down || this.actions.left || this.actions.right
 
-      // 播放行走或待机动画
+      
       if (isMoving) {
         this.playAnimation('walk')
       }
@@ -476,7 +474,7 @@ export default class Hero {
       }
     }
 
-    // 下落动画
+    
     if (!this.playerOnFloor && this.playerVelocity.y < 0 && this.currentAnimation !== this.animations.fall) {
       this.playAnimation('fall')
     }
@@ -549,7 +547,7 @@ export default class Hero {
     // Calculate the difference between the current rotation and the target rotation
     let deltaRotation = targetRotation - currentRotation
 
-    // 归一化 deltaRotation 到 [-PI, PI] 区间
+    
     deltaRotation = ((deltaRotation + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI
 
     // Calculate the new target rotation
@@ -613,29 +611,27 @@ export default class Hero {
   }
 
   // #region
-  /**
-   * 创建调试面板，用于控制角色和动画
-   */
+  
   debugInit() {
-    // ===== 角色动画控制面板 =====
+    
     this.debugFolder = this.debug.ui.addFolder({
       title: 'Character Anim Control',
       expanded: false,
     })
 
-    // ----- 基本信息显示 -----
+    
     const infoFolder = this.debugFolder.addFolder({
       title: 'Basic Info',
       expanded: true,
     })
 
-    // 显示动画信息
+    
     infoFolder.addBinding(
       {
-        动画总数: this.animation.clips.length,
-        当前动画: this.animation.current,
+        Total_Animations: this.animation.clips.length,
+        Current_Animation: this.animation.current,
       },
-      '动画总数',
+      'Total Animations',
       {
         readonly: true,
       },
@@ -643,27 +639,27 @@ export default class Hero {
 
     infoFolder.addBinding(
       {
-        当前动画: this.animation.current,
+        Current_Animation: this.animation.current,
       },
-      '当前动画',
+      'Current Animation',
       {
         readonly: true,
       },
     )
 
-    // ----- 动画选择控制 -----
+    
     const animSelectFolder = this.debugFolder.addFolder({
       title: 'Animation Selection',
       expanded: true,
     })
 
-    // 创建动画选项
+    
     const animationOptions = {}
     this.animation.clips.forEach((clip) => {
       animationOptions[clip.name] = clip.name
     })
 
-    // 添加动画选择下拉菜单
+    
     this.debugAnimation = {
       currentAnimation: this.animation.current,
     }
@@ -679,13 +675,13 @@ export default class Hero {
       this.playAnimation(event.value)
     })
 
-    // ----- 动画参数控制 -----
+    
     const animParamsFolder = this.debugFolder.addFolder({
       title: 'Animation Parameters',
       expanded: true,
     })
 
-    // 动画速度控制
+    
     animParamsFolder.addBinding(
       this.animationParams,
       'timeScale',
@@ -696,13 +692,13 @@ export default class Hero {
         step: 0.1,
       },
     ).on('change', (event) => {
-      // 调整所有动画的速度
+      
       Object.values(this.animation.actions).forEach((action) => {
         action.setEffectiveTimeScale(event.value)
       })
     })
 
-    // 渐变时长控制
+    
     animParamsFolder.addBinding(
       this.animationParams,
       'fadeInDuration',
@@ -725,7 +721,7 @@ export default class Hero {
       },
     )
 
-    // 暂停/播放控制
+    
     animParamsFolder.addBinding(
       this.animationParams,
       'paused',
@@ -741,7 +737,7 @@ export default class Hero {
       }
     })
 
-    // 循环模式控制
+    
     this.debugAnimation.loopMode = 'LoopRepeat'
     const loopModes = {
       LoopOnce: THREE.LoopOnce,
@@ -755,13 +751,13 @@ export default class Hero {
       {
         label: 'Loop Mode',
         options: {
-          单次播放: 'LoopOnce',
-          循环播放: 'LoopRepeat',
-          来回播放: 'LoopPingPong',
+          Play_Once: 'LoopOnce',
+          Loop_Repeat: 'LoopRepeat',
+          Loop_PingPong: 'LoopPingPong',
         },
       },
     ).on('change', (event) => {
-      // 设置当前动画的循环模式
+      
       const action = this.animation.actions[this.animation.current]
       action.setLoop(loopModes[event.value])
 
@@ -770,13 +766,13 @@ export default class Hero {
       }
     })
 
-    // ----- 动画操作按钮 -----
+    
     const animButtonsFolder = this.debugFolder.addFolder({
       title: 'Animation Operations',
       expanded: true,
     })
 
-    // 重置动画按钮
+    
     animButtonsFolder.addButton({
       title: 'Reset Animation',
     }).on('click', () => {
@@ -784,7 +780,7 @@ export default class Hero {
       action.reset().play()
     })
 
-    // 停止所有动画按钮
+    
     animButtonsFolder.addButton({
       title: 'Stop All Animations',
     }).on('click', () => {
@@ -793,24 +789,24 @@ export default class Hero {
       })
     })
 
-    // 重新激活动画按钮
+    
     animButtonsFolder.addButton({
       title: 'Reactivate Current Animation',
     }).on('click', () => {
-      // 重置并重新播放当前动画
+      
       const currentAnimation = this.animation.current
       this.animation.actions[currentAnimation].stop()
       this.animation.actions[currentAnimation].reset()
       this.animation.actions[currentAnimation].play()
     })
 
-    // ===== 角色变换控制面板 =====
+    
     const transformFolder = this.debug.ui.addFolder({
       title: 'Character Transform Control',
       expanded: false,
     })
 
-    // 位置控制
+    
     transformFolder.addBinding(
       this.heroParams,
       'position',
@@ -824,7 +820,7 @@ export default class Hero {
       this.hero.position.copy(this.heroParams.position)
     })
 
-    // 旋转控制
+    
     transformFolder.addBinding(
       this.heroParams,
       'rotation',
@@ -838,7 +834,7 @@ export default class Hero {
       this.hero.rotation.copy(this.heroParams.rotation)
     })
 
-    // 缩放控制
+    
     transformFolder.addBinding(
       this.heroParams,
       'scale',
@@ -852,7 +848,7 @@ export default class Hero {
       this.hero.scale.copy(this.heroParams.scale)
     })
 
-    // 可见性控制
+    
     transformFolder.addBinding(
       this.heroParams,
       'visible',
@@ -863,7 +859,7 @@ export default class Hero {
       this.hero.visible = this.heroParams.visible
     })
 
-    // 添加骨骼显示控制
+    
     this.skeletonVisible = true
     transformFolder.addBinding(
       this,
@@ -872,7 +868,7 @@ export default class Hero {
         label: 'Show Skeleton',
       },
     ).on('change', (event) => {
-      // 遍历场景中的所有SkeletonHelper
+      
       this.scene.traverse((object) => {
         if (object instanceof THREE.SkeletonHelper) {
           object.visible = event.value
@@ -937,36 +933,36 @@ export default class Hero {
   update() {
     const deltaTime = this.time.delta / 1000
 
-    // 动画更新
+    
     if (this.mixer) {
       this.mixer.update(deltaTime)
     }
 
-    // 判断是否有移动动作
+    
     const isAnyMovementKeyPressed = this.actions.up || this.actions.down || this.actions.left || this.actions.right
 
-    // 角色移动
+    
     if (!this.character.isSitting) {
       this.moveCharacter(deltaTime)
     }
     else if (!isAnyMovementKeyPressed && this.playerOnFloor) {
-      // 阻尼
+      
       const damping = Math.exp(-10 * deltaTime) - 1
       this.playerVelocity.addScaledVector(this.playerVelocity, damping)
 
-      // 位置更新
+      
       const deltaPosition = this.playerVelocity.clone().multiplyScalar(deltaTime)
       this.playerCollider.translate(deltaPosition)
     }
     this.playerCollisions()
     this.updateModelFromCollider()
 
-    // 判断角色是否掉落到Y轴-20以下，自动重置
+    
     if (this.hero.position.y < -20) {
       this.resetPosition()
     }
 
-    // 相机更新
+    
     this.updateCamera()
   }
 
@@ -977,7 +973,7 @@ export default class Hero {
     // Set camera look-at point (slightly above character's position)
     this.cameraLookAt.copy(characterPosition)
     this.cameraLookAt.y += 1.5 // Look at character's upper body
-    // 如果用户正在通过鼠标控制相机，则不执行自动更新
+    
     if (this.isUserInteracting) {
       this.camera.lookAt(this.cameraLookAt)
       return
@@ -993,14 +989,14 @@ export default class Hero {
     this.camera.lookAt(this.cameraLookAt)
   }
 
-  // 重置角色到初始位置的方法
+  
   resetPosition() {
-    // 设置角色初始位置、旋转、缩放
+    
     this.hero.position.set(37, 10, 6)
     this.hero.scale.set(2, 2, 2)
     this.hero.rotation.set(0, Math.PI / 2, 0)
     this.hero.visible = true
-    // 重置碰撞体位置
+    
     this.playerCollider.start.set(
       this.hero.position.x,
       this.hero.position.y + 2.35,
@@ -1011,9 +1007,11 @@ export default class Hero {
       this.hero.position.y + 3,
       this.hero.position.z,
     )
-    // 重置速度
+    
     this.playerVelocity.set(0, 0, 0)
-    // 重置动画为idle
+    
     this.playAnimation('idle')
   }
 }
+
+// Updated on 2026-08-28

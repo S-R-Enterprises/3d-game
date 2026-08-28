@@ -165,3 +165,5 @@ export default class IMouse {
     this.syncMouseDOM()
   }
 }
+
+// Updated on 2026-08-28

@@ -128,7 +128,7 @@ export default class TextMesh {
           specular: '#ffffff',
         })
         if (letter === ' ') {
-          // 如果是空格，只增加偏移量
+          
           words.letterOff += spaceOffset
         }
         else {
@@ -198,7 +198,7 @@ export default class TextMesh {
   setConstraints() {
     for (const group of this.textGroups) {
       for (let index = 0; index < group.children.length; index++) {
-        // 我们获取当前字母和下一个字母（如果不是倒数第二个）
+        
         const letter = group.children[index]
         const nextLetter
           = index === group.children.length - 1
@@ -208,7 +208,7 @@ export default class TextMesh {
         if (!nextLetter)
           continue
 
-        // 使用 ConeTwistConstraint，因为它比其他约束更刚性，适合我们的目的
+        
         const constraint = new CANNON.ConeTwistConstraint(
           letter.body,
           nextLetter.body,
@@ -218,7 +218,7 @@ export default class TextMesh {
           },
         )
 
-        // 可选，但在我看来这会给我们一个更真实的渲染效果
+        
         constraint.collideConnected = true
 
         this.world.addConstraint(constraint)
@@ -304,18 +304,18 @@ export default class TextMesh {
             const { body } = letter
             const upwardImpulse = new CANNON.Vec3(0, 0.5, 0)
             body.applyImpulse(upwardImpulse, body.position)
-            return // 找到并应用力后立即返回
+            return 
           }
         }
       }
-      // // 如果射线命中的对象与上一次不同，才施加力
+      
       // if (object !== this.lastIntersectedObject) {
       //   this.applyUpwardForce(object);
       //   this.lastIntersectedObject = object;
       // }
     }
     else {
-      // 如果射线没有命中任何对象，重置 lastIntersectedObject
+      
       this.lastIntersectedObject = null
     }
   }
@@ -327,7 +327,7 @@ export default class TextMesh {
           const { body } = letter
           const upwardImpulse = new CANNON.Vec3(0, 2.5, 0)
           body.applyImpulse(upwardImpulse, body.position)
-          return // 找到并应用力后立即返回
+          return 
         }
       }
     }
@@ -431,3 +431,5 @@ export default class TextMesh {
     return this.colors[Math.floor(Math.random() * this.colors.length)]
   }
 }
+
+// Updated on 2026-08-28

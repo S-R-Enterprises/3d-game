@@ -7,7 +7,7 @@ export default class Fireflies {
     this.scene = this.experience.scene
     this.debug = this.experience.debug
     this.time = this.experience.time
-    // 创建提供采样的平面
+    
     this.planeGeometry = new THREE.PlaneGeometry(50, 30)
     this.planeMaterial = new THREE.MeshStandardMaterial({
       color: 0x000000,
@@ -42,27 +42,27 @@ export default class Fireflies {
     const noises = new Float32Array(this.parameters.fireflyCount * 3)
     const speeds = new Float32Array(this.parameters.fireflyCount)
 
-    // 创建采样器
+    
     const sampler = new MeshSurfaceSampler(this.plane).build()
     const tempPosition = new THREE.Vector3()
     
-    // 对平面进行采样
+    
     for(let i = 0; i < this.parameters.fireflyCount; i++) {
-        // 采样位置
+        
         sampler.sample(tempPosition)
         tempPosition.applyMatrix4(this.plane.matrixWorld)
         
-        // 存储基础位置
+        
         positions[i * 3] = tempPosition.x
-        positions[i * 3 + 1] = tempPosition.y + 0.5 // 抬高一些
+        positions[i * 3 + 1] = tempPosition.y + 0.5 
         positions[i * 3 + 2] = tempPosition.z
         
-        // 存储噪声值用于动画
+        
         noises[i * 3] = 0.3 + Math.random() * 0.6     // x noise
         noises[i * 3 + 1] = 0.3 + Math.random() * 0.6 // y noise
         noises[i * 3 + 2] = 0.3 + Math.random() * 0.6 // z noise
         
-        // 存储速度和大小
+        
         speeds[i] = 0.5 + Math.random()
         scales[i] = 0.3 + Math.random() * 0.7
     }
@@ -72,7 +72,7 @@ export default class Fireflies {
     this.geometry.setAttribute('aNoise', new THREE.BufferAttribute(noises, 3))
     this.geometry.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1))
 
-    // 修改材质的 shader
+    
     this.material = new THREE.ShaderMaterial({
         uniforms: {
             uTime: { value: 0 },
@@ -92,8 +92,8 @@ export default class Fireflies {
             void main() {
                 vec4 modelPosition = modelMatrix * vec4(position, 1.0);
                 
-                // 使用噪声值和速度创建更自然的动画
-                float time = uTime * 0.001; // 降低时间比例
+                
+                float time = uTime * 0.001; 
                 modelPosition.x += sin(time * aSpeed + aNoise.x) * aNoise.x;
                 modelPosition.y += cos(time * aSpeed + aNoise.y) * aNoise.y;
                 modelPosition.z += sin(time * aSpeed + aNoise.z) * aNoise.z;
@@ -179,3 +179,4 @@ export default class Fireflies {
     }
   }
 } 
+// Updated on 2026-08-28

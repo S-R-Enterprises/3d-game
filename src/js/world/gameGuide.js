@@ -10,7 +10,7 @@ export default class GameGuide extends EventEmitter {
     this.currentPage = 1 // Track current page
     this.totalPages = 2 // Total number of pages
 
-    // 监听来自 Experience 实例的语言变更事件
+    
     this.experience.languageSwitcher.on('languageChanged', () => this.updateTranslations())
 
     this.createGuideDialog()
@@ -285,3 +285,5 @@ export default class GameGuide extends EventEmitter {
     }
   }
 }
+
+// Updated on 2026-08-28

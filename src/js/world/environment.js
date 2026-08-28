@@ -57,7 +57,7 @@ export default class Environment extends EventEmitter {
     this.sunLight.position.copy(this.sunLightPosition)
     this.scene.add(this.sunLight)
 
-    // 设置 sunLight Target
+    
     this.sunLight.target = new THREE.Object3D()
     this.sunLightTarget = new THREE.Vector3(0, 0, 0)
     this.sunLight.target.position.copy(this.sunLightTarget)
@@ -205,3 +205,5 @@ export default class Environment extends EventEmitter {
     }
   }
 }
+
+// Updated on 2026-08-28

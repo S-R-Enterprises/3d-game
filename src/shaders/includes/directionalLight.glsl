@@ -14,3 +14,4 @@ vec3 directionalLight(vec3 lightColor, float lightIntensity, vec3 normal, vec3 l
 
     return lightColor * lightIntensity * (shading + specular);
 }
+// Updated on 2026-08-28

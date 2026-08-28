@@ -86,28 +86,29 @@ float cnoise(vec3 P)
 }
 
 void main() {
-    // 第一次噪声用于UV扭曲
+    
     vec2 displacedUv = vUv + cnoise(vec3(vUv * uNoiseScale, uTime * uTimeScale));
     
-    // 第二次噪声用于颜色混合
+    
     float strength = cnoise(vec3(displacedUv * uNoiseScale, uTime * uTimeScale));
     
-    // 将噪声值映射到 [0,1] 范围
+    
     strength = strength * 0.7 + 0.3;
     
-    // 计算外圈发光
-    float outerGlow = distance(vUv, vec2(0.5)) * uGlowIntensity - uGlowOffset;
-    outerGlow = max(0.0, outerGlow); // 确保发光值不为负
     
-    // 使用噪声值混合两种颜色
+    float outerGlow = distance(vUv, vec2(0.5)) * uGlowIntensity - uGlowOffset;
+    outerGlow = max(0.0, outerGlow); 
+    
+    
     vec3 mixedColor = mix(uColorA, uColorB, strength);
     
-    // 添加发光效果
+    
     vec3 finalColor = mixedColor + outerGlow * uColorB;
     
     gl_FragColor = vec4(finalColor, 1.0);
     
-    // 确保正确的颜色空间转换
+    
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 } 
+// Updated on 2026-08-28

@@ -27,3 +27,4 @@ void main()
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
+// Updated on 2026-08-28

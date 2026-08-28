@@ -159,3 +159,5 @@ export default class Smoke {
     this.material.uniforms.uTime.value = this.time.elapsed * 0.001
   }
 }
+
+// Updated on 2026-08-28

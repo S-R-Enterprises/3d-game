@@ -12,10 +12,12 @@ void main(){
 
   // varying
   vUv = uv;
-  screenUV=gl_Position.xy/gl_Position.w;// 归一化设备坐标 (NDC)
-  screenUV=screenUV*.5+.5;// 转换到 [0, 1] 范围
+  screenUV=gl_Position.xy/gl_Position.w;
+  screenUV=screenUV*.5+.5;
   vec4 transformedNormal = modelMatrix * vec4(normal, 0.0);
   worldNormal = normalize(transformedNormal).xyz;
 
   eyeVector = normalize(worldPos.xyz - cameraPosition);
 }
+
+// Updated on 2026-08-28

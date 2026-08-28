@@ -3,17 +3,17 @@ import Experience from '../experience.js'
 
 export default class Lava {
   constructor() {
-    // 获取 Experience 单例实例
+    
     this.experience = new Experience()
 
-    // 获取必要的引用
+    
     this.scene = this.experience.scene
     this.time = this.experience.time
     this.debug = this.experience.debug
     this.sizes = this.experience.sizes
     this.resources = this.experience.resources
 
-    // 初始化着色器uniforms
+    
     this.uniforms = {
       iTime: { value: 0.0 },
       iResolution: { value: new THREE.Vector2(this.sizes.width, this.sizes.height) },
@@ -31,13 +31,13 @@ export default class Lava {
       flowSpeed: { value: 0.002 },
     }
 
-    // 创建着色器材质
+    
     this.createShaderMaterial()
 
-    // 创建岩浆表面网格
+    
     this.createLavaMesh()
 
-    // 如果debug模式激活，添加调试面板
+    
     if (this.debug.active) {
       this.debugObject = {
         positionX: -40.0,
@@ -54,7 +54,7 @@ export default class Lava {
   }
 
   createShaderMaterial() {
-    // 顶点着色器
+    
     this.vertexShader = /* glsl */ `
       uniform float iTime;
       varying vec2 vUv;
@@ -64,7 +64,7 @@ export default class Lava {
       }
     `
 
-    // 片元着色器
+    
     this.fragmentShader = /* glsl */ `
       uniform vec2 iResolution;
       uniform float iTime;
@@ -86,20 +86,20 @@ export default class Lava {
       }
 
       void main() {
-        // 获取流动图的值
+        
         vec2 flow = texture2D(flowMap, vUv).rg * 2.0 - 1.0;
         
-        // 计算流动偏移
+        
         vec2 flowOffset = flow * flowSpeed * sin(iTime * 0.5)*1.0;
         
-        // 应用流动偏移到UV坐标
+        
         vec2 uv = vUv + flowOffset;
 
-        // 像素化处理
+        
         vec2 pixels = vec2(pixelSize);
         uv = floor(uv * pixels) / pixels;
 
-        // 岩浆表面计算
+        
         uv *= 8.0;
         vec2 uv_i = floor(uv);
 
@@ -120,7 +120,7 @@ export default class Lava {
         float factor = smoothstep(0.05, 0.4, m_dist);
         vec3 lavaColor = mix(color1, color2, factor);
 
-        // 发光效果计算 - 使用像素化后的UV坐标
+        
         float distToEdgeX = min(vUv.x, 1.0 - vUv.x);
         float distToEdgeY = min(vUv.y, 1.0 - vUv.y);
         float minDistToEdge = min(distToEdgeX, distToEdgeY);
@@ -133,7 +133,7 @@ export default class Lava {
       }
     `
 
-    // 创建着色器材质
+    
     this.shaderMaterial = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader: this.vertexShader,
@@ -146,56 +146,56 @@ export default class Lava {
   }
 
   createLavaMesh() {
-    // 创建一个大平面作为岩浆表面
+    
     const geometry = new THREE.PlaneGeometry(10, 12.5, 1, 1)
     this.lavaMesh = new THREE.Mesh(geometry, this.shaderMaterial)
 
-    // 设置岩浆表面位置和旋转
-    this.lavaMesh.rotation.x = -Math.PI / 2 // 使平面水平放置
-    this.lavaMesh.position.set(-40.0, 0.59, -1.8) // 使用默认位置
+    
+    this.lavaMesh.rotation.x = -Math.PI / 2 
+    this.lavaMesh.position.set(-40.0, 0.59, -1.8) 
 
-    // 将岩浆表面添加到场景
+    
     this.scene.add(this.lavaMesh)
   }
 
   update() {
-    // 更新时间uniform
+    
     if (this.uniforms && this.uniforms.iTime) {
       this.uniforms.iTime.value = this.time.elapsed * 0.001
 
-      // 计算波纹强度的周期性变化
+      
       const time = this.time.elapsed * 0.001
       const min = this.uniforms.distanceFactorMin.value
       const max = this.uniforms.distanceFactorMax.value
       const speed = this.uniforms.distanceFactorSpeed.value
 
-      // 使用正弦函数生成周期性变化
+      
       this.uniforms.distanceFactor.value
         = min + (Math.sin(time * speed) * 0.5 + 0.5) * (max - min)
     }
   }
 
   resize() {
-    // 更新分辨率uniform
+    
     if (this.uniforms && this.uniforms.iResolution) {
       this.uniforms.iResolution.value.set(this.sizes.width, this.sizes.height)
     }
   }
 
   debugInit() {
-    // 创建调试面板
+    
     this.debugFolder = this.debug.ui.addFolder({
       title: 'Lava Effect',
       expanded: false,
     })
 
-    // 岩浆参数控制
+    
     const lavaFolder = this.debugFolder.addFolder({
       title: 'Lava Parameters',
       expanded: false,
     })
 
-    // 添加流动速度控制
+    
     lavaFolder.addBinding(
       this.uniforms.flowSpeed,
       'value',
@@ -207,13 +207,13 @@ export default class Lava {
       },
     )
 
-    // 添加位置控制
+    
     const positionFolder = lavaFolder.addFolder({
       title: 'Position Control',
       expanded: false,
     })
 
-    // X轴位置控制
+    
     positionFolder.addBinding(
       this.debugObject,
       'positionX',
@@ -227,7 +227,7 @@ export default class Lava {
       this.lavaMesh.position.x = this.debugObject.positionX
     })
 
-    // Y轴位置控制
+    
     positionFolder.addBinding(
       this.debugObject,
       'positionY',
@@ -241,7 +241,7 @@ export default class Lava {
       this.lavaMesh.position.y = this.debugObject.positionY
     })
 
-    // Z轴位置控制
+    
     positionFolder.addBinding(
       this.debugObject,
       'positionZ',
@@ -255,7 +255,7 @@ export default class Lava {
       this.lavaMesh.position.z = this.debugObject.positionZ
     })
 
-    // 添加大小控制
+    
     lavaFolder.addBinding(
       this.debugObject,
       'scale',
@@ -308,13 +308,13 @@ export default class Lava {
       this.uniforms.color2.value.set(this.debugObject.color2)
     })
 
-    // 发光参数控制
+    
     const glowFolder = this.debugFolder.addFolder({
       title: 'Glow Parameters',
       expanded: true,
     })
 
-    // 添加像素化控制面板
+    
     const pixelFolder = this.debugFolder.addFolder({
       title: 'Pixelation Parameters',
       expanded: true,
@@ -365,3 +365,5 @@ export default class Lava {
     )
   }
 }
+
+// Updated on 2026-08-28

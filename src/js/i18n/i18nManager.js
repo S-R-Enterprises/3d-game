@@ -2,7 +2,7 @@ import { translations } from './translations'
 
 export default class I18nManager {
   constructor() {
-    // 单例模式
+    
     if (I18nManager.instance) {
       return I18nManager.instance
     }
@@ -84,3 +84,5 @@ export default class I18nManager {
     this.listeners.forEach(listener => listener(this.currentLang))
   }
 }
+
+// Updated on 2026-08-28

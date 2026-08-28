@@ -10,10 +10,10 @@ export default class IntroDialog extends EventEmitter {
     this.dialogText = document.getElementById('dialogText')
     this.dialogContainer = this.dialogText.closest('.fixed')
 
-    // 获取 i18n 管理器实例
+    
     this.i18n = new I18nManager()
 
-    // 初始化介绍内容
+    
     this.introContent = [
       this.i18n.t('intro.vision'),
       this.i18n.t('intro.purpose'),
@@ -27,7 +27,7 @@ export default class IntroDialog extends EventEmitter {
       this.i18n.t('intro.knowledge'),
     ]
 
-    // 交互区域内容
+    
     this.interactionContent = {
       bed_area: this.i18n.t('areas.bed_area'),
       beer_area: this.i18n.t('areas.beer_area'),
@@ -45,10 +45,10 @@ export default class IntroDialog extends EventEmitter {
     this.introLoopTimer = null
     this.lastInteractionTime = Date.now()
 
-    // 监听语言变更事件
+    
     this.on('languageChanged', () => this.updateTranslations())
 
-    // 绑定跳过按钮事件
+    
     this.skipBtn = document.getElementById('skipDialogBtn')
     if (this.skipBtn) {
       this.skipBtn.addEventListener('click', () => {
@@ -61,11 +61,9 @@ export default class IntroDialog extends EventEmitter {
     }
   }
 
-  /**
-   * 更新所有翻译内容
-   */
+  
   updateTranslations() {
-    // 更新介绍内容
+    
     this.introContent = [
       this.i18n.t('intro.vision'),
       this.i18n.t('intro.purpose'),
@@ -79,7 +77,7 @@ export default class IntroDialog extends EventEmitter {
       this.i18n.t('intro.knowledge'),
     ]
 
-    // 更新交互区域内容
+    
     this.interactionContent = {
       bed_area: this.i18n.t('areas.bed_area'),
       beer_area: this.i18n.t('areas.beer_area'),
@@ -90,7 +88,7 @@ export default class IntroDialog extends EventEmitter {
       well_area: this.i18n.t('areas.well_area'),
     }
 
-    // 如果当前正在显示内容，重新显示当前内容的翻译
+    
     this.setupTyped(this.introContent, true)
   }
 
@@ -99,7 +97,7 @@ export default class IntroDialog extends EventEmitter {
       this.typed.destroy()
     }
 
-    // 清除之前的隐藏计时器
+    
     if (this.hideTimer) {
       clearTimeout(this.hideTimer)
       this.hideTimer = null
@@ -109,15 +107,15 @@ export default class IntroDialog extends EventEmitter {
       strings: content,
       typeSpeed: 10,
       backSpeed: 5,
-      backDelay: 1500, // 第一句话打完后，会停顿 1.5 秒再开始退格
+      backDelay: 1500, 
       showCursor: true,
       cursorChar: '|',
-      loop: autoLoop, // 示例中让它循环
+      loop: autoLoop, 
     })
   }
 
   hideDialog() {
-    // 清除隐藏计时器
+    
     if (this.hideTimer) {
       clearTimeout(this.hideTimer)
       this.hideTimer = null
@@ -133,40 +131,33 @@ export default class IntroDialog extends EventEmitter {
     this.dialogContainer.style.opacity = '1'
   }
 
-  /**
-   * 显示特定区域的内容
-   * @param {string} areaId 区域ID
-   */
+  
   showAreaContent(areaId) {
-    // 更新最后交互时间
+    
     this.lastInteractionTime = Date.now()
 
-    // 获取区域内容
+    
     const content = [this.interactionContent[areaId]]
     if (!content) {
       console.warn(`Area content not found: ${areaId}`)
       return
     }
 
-    // 清空文本
+    
     this.dialogText.textContent = ''
 
-    // 显示对话框和内容
+    
     this.showDialog()
-    this.setupTyped(content, false) // 自动隐藏
+    this.setupTyped(content, false) 
   }
 
-  /**
-   * 开始轮询显示介绍内容
-   */
+  
   startIntroContentLoop() {
-    // 显示第一条内容
+    
     this.setupTyped(this.introContent, true)
   }
 
-  /**
-   * 停止轮询
-   */
+  
   stopIntroContentLoop() {
     if (this.introLoopTimer) {
       clearInterval(this.introLoopTimer)
@@ -174,9 +165,7 @@ export default class IntroDialog extends EventEmitter {
     }
   }
 
-  /**
-   * 销毁实例
-   */
+  
   destroy() {
     this.stopIntroContentLoop()
     if (this.typed) {
@@ -185,7 +174,9 @@ export default class IntroDialog extends EventEmitter {
     if (this.hideTimer) {
       clearTimeout(this.hideTimer)
     }
-    // 移除所有事件监听器
+    
     this.off('languageChanged')
   }
 }
+
+// Updated on 2026-08-28

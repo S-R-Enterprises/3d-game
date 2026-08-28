@@ -5,7 +5,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { RenderPixelatedPass } from 'three/examples/jsm/postprocessing/RenderPixelatedPass.js'
 import Experience from '../experience.js'
-import { NoisePass } from './noise-pass.js' // 新建这个文件
+import { NoisePass } from './noise-pass.js' 
 
 export default class Effects {
   constructor() {
@@ -23,34 +23,34 @@ export default class Effects {
   setComposer() {
     this.renderPass = new RenderPass(this.scene, this.camera.instance)
 
-    // 创建噪点Pass（新增代码）
+    
     this.noisePass = new NoisePass({
       intensity: 0.65,
       speed: 0.9,
     })
 
-    // 创建像素化Pass
+    
     this.pixelPass = new RenderPixelatedPass(1, this.scene, this.camera.instance)
     this.pixelPass.normalEdgeStrength = 0.53
     this.pixelPass.depthEdgeStrength = 0.4
 
-    // 创建输出Pass用于提亮画面
+    
     this.outputPass = new OutputPass()
-    this.outputPass.exposure = 1.2 // 增加曝光度
-    this.outputPass.toneMapping = THREE.ReinhardToneMapping // 使用Reinhard色调映射
-    this.outputPass.toneMappingExposure = 1.2 // 色调映射曝光度
+    this.outputPass.exposure = 1.2 
+    this.outputPass.toneMapping = THREE.ReinhardToneMapping 
+    this.outputPass.toneMappingExposure = 1.2 
 
     this.composer = new EffectComposer(this.renderer.instance)
     this.composer.addPass(this.renderPass)
-    this.composer.addPass(this.noisePass) // 新增噪点Pass
+    this.composer.addPass(this.noisePass) 
     this.composer.addPass(this.pixelPass)
-    // 此时像素化效果已经生效，但画面比较灰暗 需要提亮
-    this.composer.addPass(this.outputPass) // 添加输出Pass
+    
+    this.composer.addPass(this.outputPass) 
   }
 
   setDebug() {
     if (this.debug.active) {
-      // 添加噪点调试参数（新增代码）
+      
       const noiseFolder = this.debug.ui.addFolder({
         title: 'Noise Effect',
       })
@@ -67,7 +67,7 @@ export default class Effects {
         label: 'Noise Speed',
       })
 
-      // 添加像素化调试参数
+      
       const pixelFolder = this.debug.ui.addFolder({
         title: 'Pixelation Effect',
       })
@@ -92,7 +92,7 @@ export default class Effects {
         label: 'Depth Edge Strength',
       })
 
-      // 添加输出调试参数
+      
       const outputFolder = this.debug.ui.addFolder({
         title: 'Output Effect',
       })
@@ -118,18 +118,18 @@ export default class Effects {
     )
   }
 
-  // 添加像素大小动画方法
+  
   animatePixelSize() {
     gsap.fromTo(
       this.pixelPass,
-      { pixelSize: 10 }, // 初始值
+      { pixelSize: 10 }, 
       {
-        pixelSize: 1, // 目标值
-        duration: 5, // 动画时长（秒）
-        ease: 'power2.out', // 缓动函数
+        pixelSize: 1, 
+        duration: 5, 
+        ease: 'power2.out', 
         onUpdate: () => {
           this.pixelPass.pixelSize = Math.round(this.pixelPass.pixelSize / 1) * 1
-          this.pixelPass.setPixelSize(this.pixelPass.pixelSize) // 更新像素大小
+          this.pixelPass.setPixelSize(this.pixelPass.pixelSize) 
         },
       },
     )
@@ -137,6 +137,8 @@ export default class Effects {
 
   update() {
     this.composer.render()
-    this.noisePass.uniforms.time.value += this.experience.time.delta * 0.1 // 更新时间
+    this.noisePass.uniforms.time.value += this.experience.time.delta * 0.1 
   }
 }
+
+// Updated on 2026-08-28
