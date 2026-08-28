@@ -15,4 +15,4 @@ alwaysApply: true
 ## User Interface (UI)
 
 - **Never change or affect the UI unintentionally.** Only alter UI components if explicitly instructed or clearly part of the assigned task.
-- Always ensure UI changes are fully tested and validated.
+- Always ensure UI changes are fully tested and validated. 

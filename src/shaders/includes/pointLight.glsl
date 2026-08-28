@@ -21,3 +21,4 @@ vec3 pointLight(vec3 lightColor, float lightIntensity, vec3 normal, vec3 lightPo
     return lightColor * lightIntensity * decay * (shading + specular);
 }
 // Updated on 2026-08-28
+ 

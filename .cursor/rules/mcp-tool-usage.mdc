@@ -24,4 +24,4 @@ alwaysApply: true
 
 - Commit and push code changes to GitHub using the **GitHub MCP server** after every successful test.
 - Ensure commits are clear, descriptive, and incremental.
-- Never overwrite or unintentionally alter files like README.md or other critical documentation without explicit user approval.
+- Never overwrite or unintentionally alter files like README.md or other critical documentation without explicit user approval. 

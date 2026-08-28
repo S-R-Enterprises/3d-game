@@ -54,4 +54,4 @@ alwaysApply: false
 - Implement proper debug views
 - Use proper logging for WebGL warnings
 - Implement proper error boundaries
-- Use appropriate development tools (OrbitControls, etc.)
+- Use appropriate development tools (OrbitControls, etc.) 

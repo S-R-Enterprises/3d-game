@@ -58,4 +58,4 @@ alwaysApply: false
 - Use meaningful commit messages
 - Maintain clean Git history
 - Document branching strategy
-- Follow proper PR process
+- Follow proper PR process 

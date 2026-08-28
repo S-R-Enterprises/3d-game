@@ -56,4 +56,4 @@ alwaysApply: false
 - Handle precision differences
 - Use appropriate extensions
 - Document platform-specific issues
-- Implement fallbacks for unsupported features
+- Implement fallbacks for unsupported features 

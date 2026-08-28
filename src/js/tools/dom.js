@@ -8,3 +8,4 @@ export function detectDeviceType() {
 }
 
 // Updated on 2026-08-28
+ 
