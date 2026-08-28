@@ -12,3 +12,4 @@
   "endOfLine": "crlf",
   "plugins": ["prettier-plugin-tailwindcss"]
 }
+
