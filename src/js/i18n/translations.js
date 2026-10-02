@@ -101,6 +101,5 @@ export const translations = {
       assets_title: 'Asset Sources',
     },
   },
-  },
 }
  
